@@ -6,7 +6,7 @@ featured: true
 date: "2025-08"
 demo: "https://recsys.simonbouchard.space"
 repo: "https://github.com/simon-bouchard/Book_Recommendation_UI_with_FastAPI"
-cover: "/projects/book-recsys/cover.webp"
+cover: "/projects/book-recsys/cover.png"
 highlights:
   - "Warm users: ALS retrieval → LightGBM reranker (embeddings + metadata)"
   - "Cold users: attention-pooled subject embeddings + Bayesian popularity prior"
@@ -115,9 +115,9 @@ Result: a clean, normalized SQL schema with stable IDs, consistent metadata, and
 ## Research & Experiments
 
 Explorations to balance **accuracy, latency, and complexity**:
-- Residual MLPs over dot-product predictions  
+- Residual MLPs over dot-product and LGBM predictions  
 - Two-tower and three-tower architectures  
-- Clustering and **regression** methods for user embeddings  
+- Clustering and regression methods for user embeddings  
 - Gated-fusion mechanisms  
 - Alternative attention pooling (scalar, per-dimension, transformer/self-attention)
 
