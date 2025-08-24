@@ -30,8 +30,8 @@ const featured = (await getCollection("projects"))
       <!-- Key skills (chips) -->
       <ul class="mt-5 flex flex-wrap gap-2">
         {[
-          "Python","FastAPI","PyTorch","LightGBM","FAISS","SQL",
-          "Docker","Linux/Nginx","Azure","Rust","C#/.NET","Git"
+          "Python","FastAPI","PyTorch","LightGBM","FAISS","ALS",
+          "Scikit", "SQL", "Linux/Nginx","Azure","Rust","Git"
         ].map((s) => (
           <li class="text-xs px-2 py-1 rounded-full border opacity-90">{s}</li>
         ))}
@@ -40,7 +40,7 @@ const featured = (await getCollection("projects"))
       <!-- CTAs -->
       <div class="mt-6 flex flex-wrap gap-3">
         <a href="/projects/" class="px-4 py-2 rounded-xl border hover:shadow-sm">Projects</a>
-        <a href="/experience/" class="px-4 py-2 rounded-xl border hover:shadow-sm">Experience</a>
+        <!-- <a href="/experience/" class="px-4 py-2 rounded-xl border hover:shadow-sm">Experience</a> -->
         <a href="/contact/" class="px-4 py-2 rounded-xl border hover:shadow-sm">Links</a>
         <a href="/about/" class="px-4 py-2 rounded-xl border hover:shadow-sm">About</a>
       </div>
