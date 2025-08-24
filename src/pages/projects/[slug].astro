@@ -33,7 +33,18 @@ const { Content } = await project.render();
       </div>
     </header>
 
-    {data.cover && <img src={data.cover} alt={data.title} class="rounded-2xl border mb-6" loading="lazy" />}
+    {data.cover && (
+      <figure class="rounded-2xl border mb-6 overflow-hidden">
+        <div class="aspect-[21/9]">  {/* try 16/9, 2/1, or 21/9 */}
+          <img
+            src={data.cover.startsWith('/') ? data.cover : `/${data.cover}`}
+            alt={data.title}
+            class="w-full h-full object-cover"
+            loading="lazy" decoding="async"
+          />
+        </div>
+      </figure>
+    )}
 
 	<section class="markdown">
       <Content />
