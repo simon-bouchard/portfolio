@@ -13,7 +13,7 @@ highlights:
   - "Similarity search: ALS, subject, or hybrid with adjustable weights"
   - "Daily retraining and zero-downtime hot reload of models/artifacts"
   - "Normalized SQL schema, reproducible exports, and automated deploys"
-tags: ["recommender-systems","backend","mlops"]
+tags: ["Machine Learning", "Recommender-Systems","Backend","MLOps"]
 ---
 
 ## Overview

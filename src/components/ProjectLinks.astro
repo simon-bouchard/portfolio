@@ -1,20 +1,72 @@
 ---
-const { demo, repo, size = "md" } = Astro.props as {
+// src/components/ProjectLinks.astro
+const {
+  demo,
+  repo,
+  size = "md",
+  demoLabel = "Live site",
+  repoLabel = "Repo",
+  emphasis = "auto", // "auto" | "demo" | "repo" | "none"
+} = Astro.props as {
   demo?: string;
   repo?: string;
   size?: "sm" | "md";
+  demoLabel?: string;
+  repoLabel?: string;
+  emphasis?: "auto" | "demo" | "repo" | "none";
 };
 
-const base = "inline-flex items-center gap-1 rounded-xl border transition hover:shadow-sm";
-const pad  = size === "sm" ? "px-2 py-1 text-xs" : "px-3 py-1.5 text-sm";
-const cls  = `${base} ${pad}`;
+const pad = size === "sm" ? "px-2.5 py-1 text-xs" : "px-3.5 py-1.5 text-sm";
 
-const ext = "↗"; // replace with an icon later if you want
+const base =
+  "inline-flex items-center gap-1.5 rounded-xl transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500";
+
+const primary =
+  `${base} ${pad} bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800`;
+const secondary =
+  `${base} ${pad} border border-slate-300 text-slate-900 hover:bg-slate-50`;
+
+const ext = "↗";
+
+// Decide which link is primary
+let demoIsPrimary = false;
+let repoIsPrimary = false;
+
+if (emphasis === "demo") demoIsPrimary = true;
+else if (emphasis === "repo") repoIsPrimary = true;
+else if (emphasis === "none") {
+  demoIsPrimary = false;
+  repoIsPrimary = false;
+} else {
+  // auto: make demo primary if present, otherwise repo primary
+  if (demo) demoIsPrimary = true;
+  else if (repo) repoIsPrimary = true;
+}
 ---
+
 {(demo || repo) && (
   <div class="flex flex-wrap gap-3">
-    {demo && <a href={demo} target="_blank" rel="noopener" class={cls}>Demo {ext}</a>}
-    {repo && <a href={repo} target="_blank" rel="noopener" class={cls}>Repo {ext}</a>}
+    {demo && (
+      <a
+        href={demo}
+        target="_blank"
+        rel="noopener"
+        class={demoIsPrimary ? primary : secondary}
+        aria-label={`${demoLabel} ${ext}`}
+      >
+        {demoLabel} {ext}
+      </a>
+    )}
+    {repo && (
+      <a
+        href={repo}
+        target="_blank"
+        rel="noopener"
+        class={repoIsPrimary ? primary : secondary}
+        aria-label={`${repoLabel} ${ext}`}
+      >
+        {repoLabel} {ext}
+      </a>
+    )}
   </div>
 )}
-

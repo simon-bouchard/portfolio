@@ -1,29 +1,54 @@
 ---
 import Base from "../layouts/Base.astro";
 ---
+
 <Base title="About — Simon Bouchard" description="Background, focus areas, and how I work.">
   <h1 class="text-3xl font-bold mb-6">About</h1>
 
   <p class="text-lg opacity-90">
-    I’m a backend developer and machine-learning practitioner focused on <strong>recommender systems</strong> and data-intensive backends.
-    I combine an engineering mindset with a business background (HEC Montréal, bilingual program) to build systems that are technically sound
-    and aligned with product goals. I value clarity, measurable outcomes, and reliability in production.
+    I’m a backend developer and machine‑learning practitioner who likes building
+    <strong>useful, reliable systems</strong>—from clean APIs and data pipelines to lightweight ML services.
+    My background in business (HEC Montréal, bilingual program) shapes how I frame problems, define success,
+    and make trade‑offs. I value clarity, measurable outcomes, and steady execution.
   </p>
 
   <h2 class="text-xl font-semibold mt-10 mb-3">What I build</h2>
   <ul class="list-disc ml-6 space-y-2 opacity-90">
-    <li><strong>Hybrid recommenders:</strong> ALS for warm users, attention-pooled subject embeddings for cold start, LightGBM reranking to blend signals and metadata.</li>
-    <li><strong>Production APIs:</strong> FastAPI services with clean contracts, caching, pagination, and observability; deployed behind Nginx.</li>
-    <li><strong>Data & MLOps:</strong> SQL schemas, feature pipelines, scheduled retraining, artifact versioning, CI/CD, and hot reloads without downtime.</li>
+    <li><strong>Production APIs & services:</strong> FastAPI/HTTP services with clear contracts, pagination, caching, and observability behind Nginx.</li>
+    <li><strong>Data & pipelines:</strong> SQL schemas, ETL/ELT jobs, feature generation, artifact/version management, and scheduled jobs with safe rollbacks.</li>
+    <li><strong>ML components when useful:</strong> retrieval/ranking, simple predictive models, or embeddings—chosen when they improve the product, not for novelty.</li>
+  </ul>
+
+  <h2 class="text-xl font-semibold mt-10 mb-3">How I solve problems</h2>
+  <ul class="list-disc ml-6 space-y-2 opacity-90">
+    <li><strong>Frame the outcome:</strong> identify the user action or business goal; pick metrics that actually reflect it.</li>
+    <li><strong>Ship a baseline:</strong> create a simple, verifiable version early (straightforward SQL/API or heuristic) to de‑risk the path.</li>
+    <li><strong>Iterate with evidence:</strong> add complexity only if it demonstrably improves results, latency, or reliability.</li>
+    <li><strong>Design for change:</strong> stable interfaces between components (ingest ⇄ store ⇄ serve) so each can evolve independently.</li>
+    <li><strong>Keep ops simple:</strong> idempotent jobs, explicit rollbacks, structured logs, and basic dashboards to answer “is it healthy?”</li>
+  </ul>
+
+  <h2 class="text-xl font-semibold mt-10 mb-3">Engineering practices I care about</h2>
+  <ul class="list-disc ml-6 space-y-2 opacity-90">
+    <li><strong>Readable code:</strong> small modules, consistent naming, guardrails (assertions/invariants), and good boundaries.</li>
+    <li><strong>Reproducible data:</strong> deterministic exports, documented transformations, and leakage‑aware evaluation.</li>
+    <li><strong>Performance budgets:</strong> aim for predictable tail latency; cache or precompute when it simplifies serving.</li>
+    <li><strong>Documentation:</strong> short design notes and runbooks that explain intent, interfaces, and failure modes.</li>
   </ul>
 
   <h2 class="text-xl font-semibold mt-10 mb-3">Selected project</h2>
   <p class="opacity-90">
-    <strong>Book Recommender (production):</strong> end-to-end system with normalized SQL schema, ALS candidate retrieval, subject embeddings with attention pooling,
-    LightGBM reranker, and a FastAPI service that serves real-time recommendations. The pipeline retrains daily and hot-reloads artifacts, balancing accuracy and latency.
+    <strong>Book Recommender (production):</strong> end‑to‑end system with normalized SQL schema, ALS candidate retrieval, subject embeddings with attention pooling,
+    LightGBM reranker, and a FastAPI service that serves real‑time recommendations. The pipeline retrains on a schedule and hot‑reloads artifacts, balancing accuracy and latency.
   </p>
+  <ul class="list-disc ml-6 space-y-2 opacity-90 mt-3">
+    <li><strong>Retrieval:</strong> ALS for behavior; subject‑embedding similarity for semantic cold‑start; hybrid option for similarity pages.</li>
+    <li><strong>Reranking:</strong> LightGBM that blends embeddings, overlap/cosine signals, and lightweight metadata; tuned for stable tail latency.</li>
+    <li><strong>Operations:</strong> separate training/inference hosts, artifact versioning, and explicit rollback paths; Nginx in front for TLS and caching.</li>
+    <li><strong>Developer ergonomics:</strong> clear feature contracts, deterministic data exports, and notebooks/scripts that mirror production I/O.</li>
+  </ul>
 
-  <!-- New section starts here -->
+  <!-- Keep this section EXACTLY as-is -->
   <h2 class="text-xl font-semibold mt-10 mb-3">Before programming</h2>
   <p class="opacity-90 mb-4">
     From age seven to sixteen I practiced karate, eventually earning a black belt at fifteen. It was the first skill I truly mastered, and it taught me discipline
@@ -44,37 +69,47 @@ import Base from "../layouts/Base.astro";
     I had no background, I could teach myself from zero through curiosity, persistence, and iteration. Although I eventually shifted my focus to programming and machine learning,
     I still enjoy creating music from time to time.
   </p>
-
-  <!-- New section ends here -->
+  <!-- End unchanged block -->
 
   <h2 class="text-xl font-semibold mt-10 mb-3">Learning & certifications</h2>
   <ul class="list-disc ml-6 space-y-1 opacity-90">
     <li>FreeCodeCamp: Back End Development & APIs, Quality Assurance, Information Security, Scientific Computing with Python, Data Analysis with Python, Machine Learning with Python, Foundational C#.</li>
-    <li>Courses: MIT <em>Missing Semester</em>, MIT <em>Intro to Deep Learning</em>, fast.ai (Parts 1 & 2), DeepLearning.AI <em>AI for Everyone</em>, <em>Generative AI for Everyone</em>.</li>
+    <li>Courses: MIT <em>Missing Semester</em>, MIT <em>Intro to Deep Learning</em>, fast.ai (Parts 1 & 2), DeepLearning.AI <em>AI for Everyone</em> & <em>Generative AI for Everyone</em>.</li>
     <li>Microsoft Learn: Azure cloud and C#/.NET paths.</li>
+    <li>Current focus: systems design for low‑latency services, robust data contracts, and practical ML for ranking/prediction.</li>
   </ul>
 
   <h2 class="text-xl font-semibold mt-10 mb-3">Tech I use</h2>
-  <div class="flex flex-wrap gap-2">
-    {[
-      "Python","FastAPI","PyTorch","LightGBM","FAISS","SQL",
-      "Docker","Linux/Nginx","Azure","Rust","C#/.NET","Git"
-    ].map(s => <span class="text-xs px-2 py-1 rounded-full border opacity-90">{s}</span>)}
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div>
+      <h3 class="font-semibold mb-2">Languages & frameworks</h3>
+      <div class="flex flex-wrap gap-2 opacity-90">
+        {["Python","FastAPI","SQL","PyTorch","Sci-kit","Rust","C#/.NET","Astro/TypeScript"].map(s => (
+          <span class="text-xs px-2 py-1 rounded-full border">{s}</span>
+        ))}
+      </div>
+    </div>
+    <div>
+      <h3 class="font-semibold mb-2">Data & infra</h3>
+      <div class="flex flex-wrap gap-2 opacity-90">
+        {["MySQL/MariaDB","Docker","Linux/Nginx","Azure","FAISS","Implicit (ALS)","Git/GitHub","CI/CD"].map(s => (
+          <span class="text-xs px-2 py-1 rounded-full border">{s}</span>
+        ))}
+      </div>
+    </div>
   </div>
 
-  <h2 class="text-xl font-semibold mt-10 mb-3">How I work</h2>
+  <h2 class="text-xl font-semibold mt-10 mb-3">How I work with others</h2>
   <ul class="list-disc ml-6 space-y-2 opacity-90">
-    <li><strong>Measure first:</strong> evaluate retrieval quality and serving latency before optimizing.</li>
-    <li><strong>Simple operations:</strong> idempotent jobs, clear rollback paths, and observability baked in.</li>
-    <li><strong>Communication:</strong> bilingual (FR/EN), concise design docs, and explicit trade-offs.</li>
+    <li><strong>Clear communication:</strong> concise design notes, explicit trade‑offs, and honest status updates; bilingual (FR/EN).</li>
+    <li><strong>Ownership:</strong> I’m comfortable carrying a feature from design to rollout, and writing the docs/runbooks that stick around.</li>
+    <li><strong>Mentorship-by-default:</strong> leave the codebase easier to understand than I found it—naming, comments, examples, and tests.</li>
   </ul>
 
   <h2 class="text-xl font-semibold mt-10 mb-3">What I’m looking for</h2>
   <p class="opacity-90">
-    I’m looking for roles where I can build backends and ML systems that ship—owning data pipelines, model training, and real-time serving.
-    I aim for pragmatic engineering, clear interfaces, and measurable improvements to user experience. At the same time, I want an environment
-    where I can continue learning and growing as a machine learning practitioner, while also putting my business background to use by contributing to the
-    strategic decisions around how AI is applied to create value.
+    Roles where I can build backends and ML‑assisted features that ship—owning data pipelines, training/refresh jobs, and real‑time serving.
+    I’m after pragmatic engineering, clear interfaces, and measurable improvements to user experience. I also want room to keep learning and to use my business
+    background to inform prioritization, metrics, and product decisions.
   </p>
-
 </Base>
