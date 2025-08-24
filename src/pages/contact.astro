@@ -1,0 +1,43 @@
+---
+import Base from "../layouts/Base.astro";
+import { socials } from "../data/socials";
+
+const name = "Simon Bouchard"; // for JSON-LD
+const sameAs = socials.map((s) => s.href);
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": name,
+  "url": "https://simonbouchard.space",
+  "sameAs": sameAs,
+};
+---
+<Base title="Links — Simon Bouchard" description="Find me on LinkedIn, GitHub, Kaggle, and more.">
+  <h1 class="text-2xl font-bold mb-4">Links</h1>
+  <p class="mb-6 opacity-90">Connect with me on these platforms:</p>
+
+  <!-- Cards -->
+  <!-- If you made SocialGrid.astro: -->
+  <!--
+  <SocialGrid items={socials} />
+  -->
+
+  <!-- Or inline (no extra component): -->
+  <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    {socials.map((s) => (
+      <a href={s.href} target="_blank" rel="noopener noreferrer"
+         class="block rounded-2xl border p-4 hover:shadow-sm transition"
+         aria-label={s.label} title={s.label}>
+        <div class="flex items-center justify-between">
+          <h3 class="font-medium">{s.label}</h3>
+          <span aria-hidden>↗</span>
+        </div>
+        {s.handle && <p class="mt-1 text-sm opacity-75">{s.handle}</p>}
+      </a>
+    ))}
+  </div>
+
+  <!-- Structured data for better SERP profile links -->
+  <script type="application/ld+json" is:inline>{JSON.stringify(jsonLd)}</script>
+</Base>
+

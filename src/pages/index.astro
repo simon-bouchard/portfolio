@@ -1,0 +1,106 @@
+---
+import Base from "../layouts/Base.astro";
+import { getCollection } from "astro:content";
+import ProjectLinks from "../components/ProjectLinks.astro";  
+
+// Featured projects for the homepage grid
+const featured = (await getCollection("projects"))
+  .filter((p) => p.data.featured)
+  .slice(0, 4);
+---
+
+<Base title="Simon Bouchard — ML & Backend Developer" description="Recommender systems, FastAPI backends, and data-intensive systems.">
+  <!-- HERO -->
+  <section class="grid md:grid-cols-2 gap-10 items-start">
+    <div>
+      <h1 class="text-4xl font-bold leading-tight">Machine Learning & Backend Developer</h1>
+
+      <p class="mt-4 text-lg opacity-90">
+        I design and deploy data-driven backends with a focus on <strong>recommender systems</strong>,
+        retrieval quality, and low-latency serving. My background in business + IT (HEC Montréal, bilingual program)
+        helps me align technical work with product goals and measurable impact.
+      </p>
+
+      <p class="mt-3 opacity-90">
+        Recently, I built a production book recommender end-to-end: normalized SQL schema, collaborative filtering for
+        warm users, attention-pooled subject embeddings for cold start, and a FastAPI service with daily retraining and
+        zero-downtime hot reloads. The system blends signals (ALS, embeddings, metadata) and prioritizes reliability and speed.
+      </p>
+
+      <!-- Key skills (chips) -->
+      <ul class="mt-5 flex flex-wrap gap-2">
+        {[
+          "Python","FastAPI","PyTorch","LightGBM","FAISS","SQL",
+          "Docker","Linux/Nginx","Azure","Rust","C#/.NET","Git"
+        ].map((s) => (
+          <li class="text-xs px-2 py-1 rounded-full border opacity-90">{s}</li>
+        ))}
+      </ul>
+
+      <!-- CTAs -->
+      <div class="mt-6 flex flex-wrap gap-3">
+        <a href="/projects/" class="px-4 py-2 rounded-xl border hover:shadow-sm">Projects</a>
+        <a href="/experience/" class="px-4 py-2 rounded-xl border hover:shadow-sm">Experience</a>
+        <a href="/contact/" class="px-4 py-2 rounded-xl border hover:shadow-sm">Links</a>
+        <a href="/about/" class="px-4 py-2 rounded-xl border hover:shadow-sm">About</a>
+      </div>
+
+      <p class="mt-4 text-sm opacity-75">
+        Currently exploring: contrastive objectives for subject embeddings, cold-start retrieval, and
+        clean CI/CD for daily model refresh.
+      </p>
+    </div>
+
+    <!-- Quick highlights -->
+    <div class="border rounded-2xl p-5 space-y-4">
+      <div>
+        <div class="text-sm font-semibold">Recommenders</div>
+        <p class="text-sm opacity-85">
+          Hybrid pipeline: ALS (warm) + subject-embedding similarity (cold) with LightGBM reranking.
+        </p>
+      </div>
+      <div>
+        <div class="text-sm font-semibold">APIs & Serving</div>
+        <p class="text-sm opacity-85">
+          FastAPI endpoints with caching, pagination, and observability; deployed behind Nginx.
+        </p>
+      </div>
+      <div>
+        <div class="text-sm font-semibold">Data & MLOps</div>
+        <p class="text-sm opacity-85">
+          SQL modeling, feature preparation, daily retraining, artifact promotion, and safe hot reloads.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured projects (internal links to detail pages) -->
+  {featured.length > 0 && (
+	  <section class="mt-12">
+		<h2 class="text-xl font-semibold mb-4">Featured</h2>
+		<div class="grid gap-6 md:grid-cols-2">
+		  {featured.map((p) => (
+			<article class="border rounded-2xl p-5 hover:shadow-sm">
+			  <a href={`/projects/${p.slug}/`} class="block">
+				<div class="flex items-center justify-between">
+        <h3 class="text-lg font-semibold flex items-center gap-2">
+          <img src={`/projects/${p.slug}/icon.png`} alt="" class="size-5 rounded" />
+          {p.data.title}
+        </h3>
+        <span class="text-xs opacity-70">{p.data.date ?? ""}</span>
+				</div>
+				<p class="mt-2 text-sm opacity-90">{p.data.description}</p>
+				<div class="mt-3 flex flex-wrap gap-2">
+				  {p.data.stack.slice(0,5).map((s) => <span class="text-xs px-2 py-1 rounded-full border opacity-80">{s}</span>)}
+				</div>
+			  </a>
+			  <div class="mt-4">
+				<ProjectLinks demo={p.data.demo} repo={p.data.repo} size="sm" />
+			  </div>
+			</article>
+		  ))}
+		</div>
+	  </section>
+	)}
+</Base>
+

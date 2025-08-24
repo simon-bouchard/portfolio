@@ -1,0 +1,77 @@
+---
+import Base from "../layouts/Base.astro";
+---
+<Base title="About — Simon Bouchard" description="Background, focus areas, and how I work.">
+  <h1 class="text-3xl font-bold mb-6">About</h1>
+
+  <p class="text-lg opacity-90">
+    I’m a backend developer and machine-learning practitioner focused on <strong>recommender systems</strong> and data-intensive backends.
+    I combine an engineering mindset with a business background (HEC Montréal, bilingual program) to build systems that are technically sound
+    and aligned with product goals. I value clarity, measurable outcomes, and reliability in production.
+  </p>
+
+  <h2 class="text-xl font-semibold mt-10 mb-3">What I build</h2>
+  <ul class="list-disc ml-6 space-y-2 opacity-90">
+    <li><strong>Hybrid recommenders:</strong> ALS for warm users, attention-pooled subject embeddings for cold start, LightGBM reranking to blend signals and metadata.</li>
+    <li><strong>Production APIs:</strong> FastAPI services with clean contracts, caching, pagination, and observability; deployed behind Nginx.</li>
+    <li><strong>Data & MLOps:</strong> SQL schemas, feature pipelines, scheduled retraining, artifact versioning, CI/CD, and hot reloads without downtime.</li>
+  </ul>
+
+  <h2 class="text-xl font-semibold mt-10 mb-3">Selected project</h2>
+  <p class="opacity-90">
+    <strong>Book Recommender (production):</strong> end-to-end system with normalized SQL schema, ALS candidate retrieval, subject embeddings with attention pooling,
+    LightGBM reranker, and a FastAPI service that serves real-time recommendations. The pipeline retrains daily and hot-reloads artifacts, balancing accuracy and latency.
+  </p>
+
+  <!-- New section starts here -->
+  <h2 class="text-xl font-semibold mt-10 mb-3">Before programming</h2>
+  <p class="opacity-90 mb-4">
+    From age seven to sixteen I practiced karate, eventually earning a black belt at fifteen. It was the first skill I truly mastered, and it taught me discipline
+    and perseverance—showing up, training hard, and pushing through setbacks. A few months after reaching black belt, I managed to break a cement block with my bare hands,
+    something I would have thought impossible when I started. Karate proved that limits could be surpassed with time and dedication, and it gave me a framework for how to
+    bring any skill to an advanced level.
+  </p>
+  <p class="opacity-90 mb-4">
+    Around the same period, I ran a small student lawn-mowing company from ages 15 to 18. I found clients, managed schedules, and even employed friends. It was my first
+    attempt at building something entirely on my own, with no one above me to rely on. More importantly, it forced me to take myself seriously at a young age—not just as
+    a kid doing odd jobs, but as someone accountable to paying clients and responsible for outcomes. That experience taught me independence, early leadership, and what it
+    means to be fully responsible for a project from start to finish.
+  </p>
+  <p class="opacity-90 mb-4">
+    A bit later, I dove into music production. Unlike karate, where I had teachers, or lawn care, where the service was clear, music was something I had to figure out entirely
+    on my own. I had never played an instrument, but I started from scratch on my computer, learning how to compose, produce, and eventually release music online. It was the
+    first time I taught myself a completely new skill without guidance, and it gave me a lasting meta-skill: learning how to learn. I built confidence that even in fields where
+    I had no background, I could teach myself from zero through curiosity, persistence, and iteration. Although I eventually shifted my focus to programming and machine learning,
+    I still enjoy creating music from time to time.
+  </p>
+
+  <!-- New section ends here -->
+
+  <h2 class="text-xl font-semibold mt-10 mb-3">Learning & certifications</h2>
+  <ul class="list-disc ml-6 space-y-1 opacity-90">
+    <li>FreeCodeCamp: Back End Development & APIs, Quality Assurance, Information Security, Scientific Computing with Python, Data Analysis with Python, Machine Learning with Python, Foundational C#.</li>
+    <li>Courses: MIT <em>Missing Semester</em>, MIT <em>Intro to Deep Learning</em>, fast.ai (Parts 1 & 2), DeepLearning.AI <em>AI for Everyone</em>, <em>Generative AI for Everyone</em>.</li>
+    <li>Microsoft Learn: Azure cloud and C#/.NET paths.</li>
+  </ul>
+
+  <h2 class="text-xl font-semibold mt-10 mb-3">Tech I use</h2>
+  <div class="flex flex-wrap gap-2">
+    {[
+      "Python","FastAPI","PyTorch","LightGBM","FAISS","SQL",
+      "Docker","Linux/Nginx","Azure","Rust","C#/.NET","Git"
+    ].map(s => <span class="text-xs px-2 py-1 rounded-full border opacity-90">{s}</span>)}
+  </div>
+
+  <h2 class="text-xl font-semibold mt-10 mb-3">How I work</h2>
+  <ul class="list-disc ml-6 space-y-2 opacity-90">
+    <li><strong>Measure first:</strong> evaluate retrieval quality and serving latency before optimizing.</li>
+    <li><strong>Simple operations:</strong> idempotent jobs, clear rollback paths, and observability baked in.</li>
+    <li><strong>Communication:</strong> bilingual (FR/EN), concise design docs, and explicit trade-offs.</li>
+  </ul>
+
+  <h2 class="text-xl font-semibold mt-10 mb-3">What I’m looking for</h2>
+  <p class="opacity-90">
+    Roles where I can build backends and ML systems that ship—owning data pipelines, model training, and real-time serving.
+    I aim for pragmatic engineering, clear interfaces, and measurable improvements to user experience.
+  </p>
+</Base>
