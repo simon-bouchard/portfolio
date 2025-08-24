@@ -1,0 +1,20 @@
+---
+const { demo, repo, size = "md" } = Astro.props as {
+  demo?: string;
+  repo?: string;
+  size?: "sm" | "md";
+};
+
+const base = "inline-flex items-center gap-1 rounded-xl border transition hover:shadow-sm";
+const pad  = size === "sm" ? "px-2 py-1 text-xs" : "px-3 py-1.5 text-sm";
+const cls  = `${base} ${pad}`;
+
+const ext = "↗"; // replace with an icon later if you want
+---
+{(demo || repo) && (
+  <div class="flex flex-wrap gap-3">
+    {demo && <a href={demo} target="_blank" rel="noopener" class={cls}>Demo {ext}</a>}
+    {repo && <a href={repo} target="_blank" rel="noopener" class={cls}>Repo {ext}</a>}
+  </div>
+)}
+

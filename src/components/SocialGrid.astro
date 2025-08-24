@@ -1,0 +1,24 @@
+---
+import type { Social } from "../data/socials";
+const { items } = Astro.props as { items: Social[] };
+---
+
+<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+  {items.map((s) => (
+    <a
+      href={s.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="block rounded-2xl border p-4 hover:shadow-sm transition"
+      aria-label={s.label}
+      title={s.label}
+    >
+      <div class="flex items-center justify-between">
+        <h3 class="font-medium">{s.label}</h3>
+        <span aria-hidden>↗</span>
+      </div>
+      {s.handle && <p class="mt-1 text-sm opacity-75">{s.handle}</p>}
+    </a>
+  ))}
+</div>
+

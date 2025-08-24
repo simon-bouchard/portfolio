@@ -1,0 +1,43 @@
+---
+import "../styles/tailwind.css";
+import { socials } from "../data/socials";
+
+// Accept optional props and provide safe defaults
+type Props = { title?: string; description?: string; ogImage?: string };
+const { title: pTitle, description: pDesc } = (Astro.props as Props) ?? {};
+const TITLE = pTitle ?? "Simon Bouchard — ML Developer";
+const DESC  = pDesc  ?? "Recommender systems, FastAPI, PyTorch.";
+---
+<html lang="en" class="h-full">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{TITLE}</title>
+    <meta name="description" content={DESC} />
+  </head>
+  <body class="h-full bg-white text-slate-900">
+    <header class="border-b">
+      <nav class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+        <a href="/" class="font-semibold">Simon Bouchard</a>
+        <div class="flex gap-5 text-sm">
+          <a href="/projects/">Projects</a>
+		  <a href="/about/">About</a>
+          <a href="/contact/">Contact</a>
+        </div>
+      </nav>
+    </header>
+    <main class="max-w-6xl mx-auto px-4 py-10"><slot /></main>
+	<footer class="max-w-6xl mx-auto px-4 py-10 text-sm opacity-80">
+	  <div class="flex flex-wrap gap-3">
+		{socials.map((s) => (
+		  <a href={s.href} target="_blank" rel="noopener noreferrer"
+			 class="rounded-full border px-3 py-1 hover:bg-slate-50">
+			{s.label}
+		  </a>
+		))}
+	  </div>
+	  <div class="mt-4">© {new Date().getFullYear()} Simon Bouchard</div>
+	</footer>
+  </body>
+</html>
+
