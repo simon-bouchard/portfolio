@@ -1,45 +1,68 @@
 ---
+// src/layouts/Base.astro
 import "../styles/tailwind.css";
-import { socials } from "../data/socials";
 
-// Accept optional props and provide safe defaults
-type Props = { title?: string; description?: string; ogImage?: string };
+type Props = { title?: string; description?: string };
 const { title: pTitle, description: pDesc } = (Astro.props as Props) ?? {};
 const TITLE = pTitle ?? "Simon Bouchard — ML Developer";
 const DESC  = pDesc  ?? "Recommender systems, FastAPI, PyTorch.";
+
+// Active-link helper
+const path = Astro.url.pathname;
+const isActive = (href: string) => {
+  if (href === "/") return path === "/";
+  // treat section roots as active for their subpages too
+  return path === href || path.startsWith(href);
+};
+
+const links = [
+  { label: "Projects",   href: "/projects/" },
+  // { label: "Experience", href: "/experience/" },
+  { label: "Links",      href: "/contact/" },
+  { label: "About",      href: "/about/" },
+];
 ---
-<html lang="en" class="h-full">
+<html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{TITLE}</title>
-    <meta name="description" content={DESC} />
-    <link rel="icon" href="/favicon.ico" sizes="any">
-    <link rel="icon" type="image/png" href="/favicon.png">
+    <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{TITLE}</title><meta name="description" content={DESC} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
   </head>
-  <body class="h-full bg-white text-slate-900">
-    <header class="border-b">
-      <nav class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-        <a href="/" class="font-semibold">Simon Bouchard</a>
-        <div class="flex gap-5 text-sm">
-          <a href="/projects/">Projects</a>
-		  <a href="/about/">About</a>
-          <a href="/contact/">Contact</a>
+  <body class="min-h-screen bg-white text-slate-900">
+    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b shadow-sm">
+      <!-- Color accent bar -->
+      <div class="h-1 bg-gradient-to-r from-sky-500 via-indigo-500 to-blue-500"></div>
+
+      <nav class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between" role="navigation" aria-label="Primary">
+        <a class="font-semibold text-lg tracking-tight hover:opacity-90 transition" href="/">Simon Bouchard</a>
+
+        <div class="flex items-center gap-1">
+          {links.map((l) => {
+            const active = isActive(l.href);
+            const base = "rounded-xl px-3 py-2 text-[15px] md:text-base font-medium transition";
+            const state = active
+              ? "bg-sky-100 text-sky-900"
+              : "text-slate-700 hover:bg-sky-50 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400";
+            return (
+              <a
+                href={l.href}
+                class={`${base} ${state}`}
+                aria-current={active ? "page" : undefined}
+              >
+                {l.label}
+              </a>
+            );
+          })}
         </div>
       </nav>
     </header>
+
     <main class="max-w-6xl mx-auto px-4 py-10"><slot /></main>
-	<footer class="max-w-6xl mx-auto px-4 py-10 text-sm opacity-80">
-	  <div class="flex flex-wrap gap-3">
-		{socials.map((s) => (
-		  <a href={s.href} target="_blank" rel="noopener noreferrer"
-			 class="rounded-full border px-3 py-1 hover:bg-slate-50">
-			{s.label}
-		  </a>
-		))}
-	  </div>
-	  <div class="mt-4">© {new Date().getFullYear()} Simon Bouchard</div>
-	</footer>
+
+    <footer class="max-w-6xl mx-auto px-4 py-10 text-sm opacity-80">
+      © {new Date().getFullYear()} Simon Bouchard
+    </footer>
   </body>
 </html>
-
