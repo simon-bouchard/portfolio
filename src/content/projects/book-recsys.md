@@ -26,6 +26,9 @@ A production-grade recommendation engine that supports both **warm users** (with
 - Provide item similarity (ALS, subject, or hybrid) with adjustable weights  
 - Automate data export, training, and deployment with safe, zero-downtime reloads
 
+**Why this dataset (and why messy on purpose)**  
+I intentionally built on the classic **Book-Crossing** dataset, which is older and deliberately rough around the edges: it was crawled in 2004, ships with minimal metadata (no tags/subjects), many missing demographics (age/location often null), and historically inconsistent ISBNs that require validation/cleanup. That made the project harder—but closer to real life, where companies struggle to operationalize AI on top of **noisy, inconsistent databases**. Working through enrichment (Open Library subjects), ID normalization (ISBN → work_id), and strict split-safe aggregates prepared me for those production realities.
+
 ---
 
 ## Architecture
