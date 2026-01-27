@@ -3,20 +3,21 @@ import Base from "../layouts/Base.astro";
 ---
 
 <Base title="About — Simon Bouchard" description="Background, focus areas, and how I work.">
-  <h1 class="text-3xl font-bold mb-6">About</h1>
+<h1 class="text-3xl font-bold mb-6">About</h1>
 
-   <p class="text-lg opacity-90">
-    I’m a recent business graduate and backend developer / machine-learning practitioner at the beginning of my career.
-    I like building <strong>useful, reliable systems</strong>—from clean APIs and data pipelines to lightweight ML services.
-    My background in business (HEC Montréal, bilingual program) shapes how I frame problems, define success,
-    and make trade-offs. I value clarity, measurable outcomes, and steady execution.
+  <p class="text-lg opacity-90">
+    I'm a machine learning developer building production ML systems and agentic AI applications.
+    I focus on <strong>recommendation systems, retrieval-augmented generation, and multi-agent architectures</strong>
+    that combine LLMs with specialized tools and real-time data retrieval. My business degree (HEC Montréal,
+    bilingual IT program) helps me bridge technical implementation and business requirements, ensuring
+    ML solutions deliver measurable value.
   </p>
 
   <h2 class="text-xl font-semibold mt-10 mb-3">What I build</h2>
   <ul class="list-disc ml-6 space-y-2 opacity-90">
-    <li><strong>Production APIs & services:</strong> FastAPI/HTTP services with clear contracts, pagination, caching, and observability behind Nginx.</li>
-    <li><strong>Data & pipelines:</strong> SQL schemas, ETL/ELT jobs, feature generation, artifact/version management, and scheduled jobs with safe rollbacks.</li>
-    <li><strong>ML components when useful:</strong> retrieval/ranking, simple predictive models, or embeddings—chosen when they improve the product, not for novelty.</li>
+    <li><strong>Agentic AI systems:</strong> LLM-powered agents with tool orchestration (LangGraph), RAG pipelines with vector search (FAISS), and multi-turn conversation management across specialized capabilities.</li>
+    <li><strong>Production ML systems:</strong> Real-time recommendation engines with collaborative filtering (ALS), attention-pooled embeddings, hybrid similarity search, and automated MLOps pipelines for model retraining and deployment.</li>
+    <li><strong>Data infrastructure for ML:</strong> Event-driven pipelines (Kafka, Spark), semantic embedding generation, SQL schemas optimized for ML workloads, and artifact versioning with safe rollbacks.</li>
   </ul>
 
   <h2 class="text-xl font-semibold mt-10 mb-3">How I solve problems</h2>
@@ -36,57 +37,78 @@ import Base from "../layouts/Base.astro";
     <li><strong>Documentation:</strong> short design notes and runbooks that explain intent, interfaces, and failure modes.</li>
   </ul>
 
-  <h2 class="text-xl font-semibold mt-10 mb-3">Selected project</h2>
+<h2 class="text-xl font-semibold mt-10 mb-3">Selected project</h2>
   <p class="opacity-90">
-    <strong>Book Recommender (production):</strong> end‑to‑end system with normalized SQL schema, ALS candidate retrieval, subject embeddings with attention pooling,
-    LightGBM reranker, and a FastAPI service that serves real‑time recommendations. The pipeline retrains on a schedule and hot‑reloads artifacts, balancing accuracy and latency.
+    <strong>Book Recommendation System (production):</strong> End-to-end ML platform with a real-time recommendation engine
+    and conversational AI interface. The recommendation API serves personalized suggestions with sub-50ms latency using
+    dual-factor architecture (ALS collaborative filtering + attention-pooled subject embeddings). Built a multi-agent
+    chatbot on top using LangGraph that orchestrates 8+ specialized tools to provide natural language access to the
+    recommendation system, semantic search, and external knowledge sources.
   </p>
   <ul class="list-disc ml-6 space-y-2 opacity-90 mt-3">
-    <li><strong>Retrieval:</strong> ALS for behavior; subject‑embedding similarity for semantic cold‑start; hybrid option for similarity pages.</li>
-    <li><strong>Reranking:</strong> LightGBM that blends embeddings, overlap/cosine signals, and lightweight metadata; tuned for stable tail latency.</li>
-    <li><strong>Operations:</strong> separate training/inference hosts, artifact versioning, and explicit rollback paths; Nginx in front for TLS and caching.</li>
-    <li><strong>Developer ergonomics:</strong> clear feature contracts, deterministic data exports, and notebooks/scripts that mirror production I/O.</li>
+    <li><strong>Recommendation engine:</strong> ALS collaborative filtering for warm users, attention-pooled subject embeddings for cold-start, hybrid similarity search, automated MLOps pipeline with scheduled retraining and hot-reload deployments achieving sub-50ms inference.</li>
+    <li><strong>Conversational agent:</strong> LangGraph-based multi-agent system with router/conductor/specialized agents, RAG with FAISS vector search for semantic retrieval, tool orchestration (recommendation APIs, catalog search, web search), and multi-turn conversation memory.</li>
+    <li><strong>Data infrastructure:</strong> Event-driven enrichment pipeline (Kafka, Spark) for semantic metadata generation, normalized SQL schema, vector index management, and comprehensive testing suite (55+ integration tests).</li>
   </ul>
 
-  <!-- Keep this section EXACTLY as-is -->
-  <h2 class="text-xl font-semibold mt-10 mb-3">Before programming</h2>
-  <p class="opacity-90 mb-4">
-    From age seven to sixteen I practiced karate, eventually earning a black belt at fifteen. It was the first skill I truly mastered, and it taught me discipline
-    and perseverance—showing up, training hard, and pushing through setbacks. A few months after reaching black belt, I managed to break a cement block with my bare hands,
-    something I would have thought impossible when I started. Karate proved that limits could be surpassed with time and dedication, and it gave me a framework for how to
-    bring any skill to an advanced level.
+<h2 class="text-xl font-semibold mt-10 mb-3">Before programming</h2>
+  <p class="opacity-90 mb-3">
+    From age seven to sixteen I practiced karate, earning a black belt at fifteen. A few months later,
+    I broke a cement block with my bare hands, something I would have thought impossible when I started.
+    Karate taught me discipline and perseverance, and proved that limits could be surpassed with consistent
+    effort over time. It gave me a framework for mastering any skill.
   </p>
-  <p class="opacity-90 mb-4">
-    Around the same period, I ran a small student lawn-mowing company from ages 15 to 18. I found clients, managed schedules, and even employed friends. It was my first
-    attempt at building something entirely on my own, with no one above me to rely on. More importantly, it forced me to take myself seriously at a young age—not just as
-    a kid doing odd jobs, but as someone accountable to paying clients and responsible for outcomes. That experience taught me independence, early leadership, and what it
-    means to be fully responsible for a project from start to finish.
+  <p class="opacity-90 mb-3">
+    Around the same period, I ran a student lawn care company from ages 15 to 18. I found clients, managed
+    schedules, and employed friends. It was my first time building something entirely on my own, with no one
+    above me to rely on. That experience taught me independence, accountability, and what it means to be
+    fully responsible for a project from start to finish.
   </p>
-  <p class="opacity-90 mb-4">
-    A bit later, I dove into music production. Unlike karate, where I had teachers, or lawn care, where the service was clear, music was something I had to figure out entirely
-    on my own. I had never played an instrument, but I started from scratch on my computer, learning how to compose, produce, and eventually release music online. It was the
-    first time I taught myself a completely new skill without guidance, and it gave me a lasting meta-skill: learning how to learn. I built confidence that even in fields where
-    I had no background, I could teach myself from zero through curiosity, persistence, and iteration. Although I eventually shifted my focus to programming and machine learning,
-    I still enjoy creating music from time to time.
+  <p class="opacity-90">
+    Later, I taught myself music production from scratch on my computer, having never played an instrument.
+    It was the first time I learned a completely new skill without guidance, which gave me a lasting
+    meta-skill: learning how to learn. Although I eventually shifted focus to programming and machine learning,
+    I still create music occasionally.
   </p>
-  <!-- End unchanged block -->
 
   <h2 class="text-xl font-semibold mt-10 mb-3">Business background</h2>
   <p class="opacity-90 mb-4">
     While I was building side projects like the book recommender and experimenting with music, I also completed a bilingual bachelor’s degree in business at HEC Montréal,
-    with a specialization in information technology. That gave me the <strong>business mindset most engineers lack</strong>—thinking in terms of value, trade-offs, and strategy—
+    with a specialization in information technology. That gave me the <strong>business mindset most engineers lack</strong>, thinking in terms of value, trade-offs, and strategy,
     while my projects and technical learning gave me the <strong>technical depth most business grads don’t have</strong>, especially in machine learning. This combination
     means I approach problems with both the technical tools to build and the business context to prioritize.
   </p>
 
-  <h2 class="text-xl font-semibold mt-10 mb-3">Learning & certifications</h2>
+<h2 class="text-xl font-semibold mt-10 mb-3">Learning & certifications</h2>
+
+  <h3 class="font-semibold mt-4 mb-2">AWS Certifications</h3>
+  <ul class="list-disc ml-6 space-y-1 opacity-90">
+    <li><strong>AWS Certified Machine Learning - Specialty (MLS-C01)</strong> | Score: 890/1000 | Jan 2026</li>
+    <li><strong>AWS Certified Generative AI - Professional (AIP-C01)</strong> | Early Adopter (First 5000) | Jan 2026</li>
+  </ul>
+
+  <h3 class="font-semibold mt-6 mb-2">Courses & Professional Development</h3>
   <ul class="list-disc ml-6 space-y-1 opacity-90">
     <li>FreeCodeCamp: Back End Development & APIs, Quality Assurance, Information Security, Scientific Computing with Python, Data Analysis with Python, Machine Learning with Python, Foundational C#.</li>
-    <li>Courses: MIT <em>Missing Semester</em>, MIT <em>Intro to Deep Learning</em>, fast.ai (Parts 1 & 2), DeepLearning.AI <em>AI for Everyone</em> & <em>Generative AI for Everyone</em>.</li>
-    <li>Microsoft Learn: Azure cloud and C#/.NET paths.</li>
-    <li>University coursework — SQL; Python for data analysis; Cybersecurity fundamentals.</li>
-    <li>Self-study & references — Web fundamentals (HTML, CSS, JavaScript, PHP) via W3Schools tutorials and MDN Web Docs (reference; not a certification).</li>
-    <li>Current focus: systems design for low‑latency services, robust data contracts, and practical ML for ranking/prediction.</li>
+    <li>MIT <em>Missing Semester</em>, MIT <em>Intro to Deep Learning</em></li>
+    <li>fast.ai Practical Deep Learning for Coders (Parts 1 & 2)</li>
+    <li>DeepLearning.AI: <em>AI for Everyone</em>, <em>Generative AI for Everyone</em>, <em>Agentic AI</em></li>
+    <li>Microsoft Learn: Azure cloud and C#/.NET paths</li>
+  </ul>
+
+  <h3 class="font-semibold mt-6 mb-2">University Coursework</h3>
+  <ul class="list-disc ml-6 space-y-1 opacity-90">
+    <li>SQL, Python for data analysis, Cybersecurity fundamentals</li>
+  </ul>
+
+  <h3 class="font-semibold mt-6 mb-2">Self-study & References</h3>
+  <ul class="list-disc ml-6 space-y-1 opacity-90">
+    <li>Web fundamentals (HTML, CSS, JavaScript, PHP) via W3Schools tutorials and MDN Web Docs (reference documentation; not a certification)</li>
+  </ul>
+
+  <h3 class="font-semibold mt-6 mb-2">Current Focus</h3>
+  <ul class="list-disc ml-6 space-y-1 opacity-90">
+    <li>Systems design for low-latency services, robust data contracts, and practical ML for ranking/prediction</li>
   </ul>
 
   <h2 class="text-xl font-semibold mt-10 mb-3">Tech I use</h2>
@@ -113,13 +135,15 @@ import Base from "../layouts/Base.astro";
   <ul class="list-disc ml-6 space-y-2 opacity-90">
     <li><strong>Clear communication:</strong> concise design notes, explicit trade‑offs, and honest status updates; bilingual (FR/EN).</li>
     <li><strong>Ownership:</strong> I’m comfortable carrying a feature from design to rollout, and writing the docs/runbooks that stick around.</li>
-    <li><strong>Mentorship-by-default:</strong> leave the codebase easier to understand than I found it—naming, comments, examples, and tests.</li>
+    <li><strong>Mentorship-by-default:</strong> leave the codebase easier to understand than I found it: naming, comments, examples, and tests.</li>
   </ul>
 
-  <h2 class="text-xl font-semibold mt-10 mb-3">What I’m looking for</h2>
+<h2 class="text-xl font-semibold mt-10 mb-3">What I'm looking for</h2>
   <p class="opacity-90">
-    I’m looking for roles where I can build backends and ML-assisted features that deliver real value, 
-    taking ownership of data pipelines, training jobs, and real-time serving. 
-    I want to keep learning while also using my business background to guide prioritization, metrics, and product decisions.
+    I'm looking for ML roles where I can work on production systems around LLMs, agentic AI, and recommendation engines.
+    I want to contribute across the ML lifecycle: data pipelines, model training, deployment, and iteration based on
+    real-world feedback. I'm particularly interested in teams building RAG systems, tool-calling architectures, or
+    personalization at scale. My business background helps me connect technical decisions to product outcomes, and I'm
+    looking for a team where I can grow these skills while learning from experienced practitioners.
   </p>
 </Base>
