@@ -8,9 +8,9 @@ demo: "https://recsys.simonbouchard.space"
 repo: "https://github.com/simon-bouchard/Book_Recommendation_UI_with_FastAPI"
 cover: "/projects/book-recsys/cover.png"
 highlights:
-  - "Warm users: ALS retrieval → LightGBM reranker (embeddings + metadata)"
+  - "Warm users: ALS retrieval" 
   - "Cold users: attention-pooled subject embeddings + Bayesian popularity prior"
-  - "Similarity search: ALS, subject, or hybrid with adjustable weights"
+  - "Similarity search (FAISS): ALS, subject, or hybrid with adjustable weights"
   - "Daily retraining and zero-downtime hot reload of models/artifacts"
   - "Normalized SQL schema, reproducible exports, and automated deploys"
 tags: ["Machine Learning", "Recommender-Systems","Backend","MLOps"]
@@ -21,7 +21,7 @@ tags: ["Machine Learning", "Recommender-Systems","Backend","MLOps"]
 A production-grade recommendation engine that supports both **warm users** (with prior ratings) and **cold users** (no history). It serves **personalized recommendations** and **item similarity search** with low latency, and runs on a fully automated pipeline with daily retraining and hot-reload of new artifacts.
 
 **Capabilities**
-- Serve warm users via collaborative filtering with metadata-aware reranking  
+- Serve warm users via collaborative filtering (**ALS-only**)  
 - Serve cold users via subject embeddings and a Bayesian popularity prior  
 - Provide item similarity (ALS, subject, or hybrid) with adjustable weights  
 - Automate data export, training, and deployment with safe, zero-downtime reloads
@@ -36,11 +36,8 @@ I intentionally built on the classic **Book-Crossing** dataset, which is older a
 ### Warm users
 **Pipeline**
 1. **ALS (Implicit)** retrieves top candidates from collaborative signals.  
-2. **LightGBM reranker** blends multiple features to refine order:
-   - Learned **subject embeddings** (user/book/favorites)
-   - Lightweight **metadata** (book stats, overlap counts, cosine similarities)
 
-This leverages ALS’s strength on series/author recall while the reranker corrects for noise and incorporates content awareness.
+> Current warm-path is **ALS-only** (no warm reranker).
 
 ### Cold users
 **Pipeline**
@@ -49,7 +46,7 @@ This leverages ALS’s strength on series/author recall while the reranker corre
 
 This handles users with zero ratings reliably while still surfacing relevant items.
 
-### Item similarity modes
+### Item similarity modes (FAISS)
 - **ALS (behavioral):** great for same author/series; weaker on sparse/niche items.  
 - **Subject similarity (content):** more coverage; slightly noisier on books with many subjects.  
 - **Hybrid:** convex combination of both with a weight control.
@@ -71,10 +68,50 @@ This handles users with zero ratings reliably while still surfacing relevant ite
 ## Automation & Deployment
 
 - **Data pipeline:** normalized SQL schema (users, books, subjects, interactions).  
-- **Training server:** scheduled daily jobs (ALS, LightGBM, aggregates, exports).  
+- **Training server:** scheduled daily jobs (ALS, aggregates, exports).  
 - **Inference server:** **hot-reloads** models/artifacts with **zero downtime**.  
 - **FastAPI backend:** paginated endpoints, caching, and auth; served via **uvicorn + Nginx**.  
-- **Web frontend:** browse/search/rate and receive real-time recommendations.
+- **Web frontend:** browse/search/rate and receive real-time recommendations.  
+- **(Planned) Vector job:** periodic LLM-agent enrichment → embeddings → index refresh, versioned for atomic hot-reloads.
+
+---
+
+## Semantic Search & Information Enrichment
+
+The system supports **semantic vector search** for catalog-grounded recommendations and chatbot queries.  
+Before embedding, a dedicated **Enrichment Agent** runs as an offline job to refine and filter catalog metadata.  
+It restructures each book entry into a concise, schema-locked format optimized for LLM embeddings—combining **title, author, subjects, tone, genre,** and **vibe** into a unified description.
+
+The enrichment process operates through a **Kafka-based pipeline** with tiered data quality handling.  
+Two **Spark jobs** process the results: one ingests enriched data into SQL for serving, while another archives raw objects in a data lake for versioned storage. An **incremental embedding job** encodes newly enriched books continuously, keeping the vector index up to date without full reprocessing.
+
+These embeddings power **semantic vector retrieval**, which the chatbot uses to interpret natural language book queries, understand tone or theme-based descriptions, and return catalog-grounded results aligned with user intent.
+
+---
+
+## Chatbot
+
+The integrated chatbot acts as a **virtual librarian** — a multi-turn assistant built with **LangGraph**.  
+It leverages the same internal tools as the recommendation engine and adds conversational reasoning and retrieval capabilities.
+
+**Current architecture**
+- Built as a **multi-agent system** orchestrated through LangGraph.  
+- A central **Router Agent** interprets the query and dispatches it to one of four branches:
+  - **Conversational** — direct LLM dialogue and reasoning.  
+  - **Docs** — retrieves and reasons over site documentation (ReAct loop).  
+  - **Web Search** — external lookups for recent or out-of-catalog books (ReAct loop).  
+  - **Recsys** — produces catalog-grounded recommendations and explanations.  
+- The **Recsys branch** itself includes two cooperating agents:
+  - **Candidate Generator** — retrieves books using ALS, FAISS, and vector-based retrieval.  
+  - **Curator/Explainer** — filters, ranks, and explains selected results.  
+- Maintains **multi-turn memory** for context-aware, natural conversations.
+
+**Roadmap**
+- Introduce a **Planner Agent** to manage multi-step reasoning and tool planning.  
+- Expand the Recsys branch into a full four-stage structure:
+  <br>_planner → candidate generation → curation → explanation_.  
+- Add a lightweight **Dialogue Manager** for long-session coordination.  
+- Improve **context summarization** for more sustained memory across sessions.
 
 ---
 
@@ -111,6 +148,12 @@ The original Book-Crossing data is noisy (ISBN variants, duplicates, missing met
    - Precompute book/user aggregates (count, average, std).  
    - Export together with embeddings to keep training/inference consistent.
 
+7. **LLM-agent enrichment**  
+   - For each book, an **LLM agent** constructs a structured dictionary describing the work (themes, tone, style, audience, etc.).  
+   - Inputs: normalized DB info (title, author, year, subjects, aggregates) + optional external lookups (agent can call a capped set of web tools if metadata is sparse).  
+   - Outputs: validated, schema-locked dictionary fields.  
+   - These dictionaries are stored alongside SQL metadata and form the basis for **LLM-based book embeddings** and vector search.  
+
 Result: a clean, normalized SQL schema with stable IDs, consistent metadata, and a compact subject vocabulary that powers both collaborative and content-based models.
 
 ---
@@ -125,7 +168,6 @@ Explorations to balance **accuracy, latency, and complexity**:
 - Alternative attention pooling (scalar, per-dimension, transformer/self-attention)
 
 Findings informed the production choices and simplified serving paths.
-
 
 ---
 
@@ -175,6 +217,14 @@ Findings informed the production choices and simplified serving paths.
 
 ---
 
+### 4) Delaying LLM-agent enrichment → missed leverage
+**What I did:** Performed enrichment (e.g., subjects, metadata cleanup) but didn’t bring in **LLM agents** early enough to structure and enrich book data.  
+**Impact:** Without agent-based enrichment, inputs stayed thin and uneven. Downstream models (ALS explanations, subject similarity, early retrieval trials) were bounded by this.  
+**Fix:** Use **carefully prompted LLM agents** earlier in the pipeline to normalize and expand metadata (tone, themes, target audience, etc.), combining local DB fields with limited external lookups.  
+**Lesson:** **Agent-led enrichment/cleaning is now part of data engineering.** Starting earlier means stronger, more consistent inputs that lift every downstream stage (ALS, subject embeddings, vector search, RAG answers).
+
+---
+
 ### Meta-lessons I’m taking forward
 - **Split first, then feature.** Leakage prevention by construction beats detection after the fact.  
 - **Baseline early, once.** A single early test pass with a simple model can save weeks.  
@@ -186,7 +236,4 @@ Findings informed the production choices and simplified serving paths.
 ## Tech Stack
 
 **Python**, **FastAPI**, **PyTorch**, **LightGBM**, **FAISS**, **Implicit (ALS)**,  
-**SQL (MySQL)**, **Nginx + uvicorn**, **Azure**, **Systemd**.
-
----
-
+**SQL (MySQL)**, **Nginx + uvicorn**, **Azure**, **Systemd**, **LangChain**, **Redis**.
