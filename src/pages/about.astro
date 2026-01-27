@@ -20,21 +20,21 @@ import Base from "../layouts/Base.astro";
     <li><strong>Data infrastructure for ML:</strong> Event-driven pipelines (Kafka, Spark), semantic embedding generation, SQL schemas optimized for ML workloads, and artifact versioning with safe rollbacks.</li>
   </ul>
 
-  <h2 class="text-xl font-semibold mt-10 mb-3">How I solve problems</h2>
+<h2 class="text-xl font-semibold mt-10 mb-3">How I solve problems</h2>
   <ul class="list-disc ml-6 space-y-2 opacity-90">
-    <li><strong>Frame the outcome:</strong> identify the user action or business goal; pick metrics that actually reflect it.</li>
-    <li><strong>Ship a baseline:</strong> create a simple, verifiable version early (straightforward SQL/API or heuristic) to de‑risk the path.</li>
-    <li><strong>Iterate with evidence:</strong> add complexity only if it demonstrably improves results, latency, or reliability.</li>
-    <li><strong>Design for change:</strong> stable interfaces between components (ingest ⇄ store ⇄ serve) so each can evolve independently.</li>
-    <li><strong>Keep ops simple:</strong> idempotent jobs, explicit rollbacks, structured logs, and basic dashboards to answer “is it healthy?”</li>
+    <li><strong>Frame the outcome:</strong> Identify the user action or business goal; pick metrics that actually reflect it.</li>
+    <li><strong>Ship a baseline:</strong> Create a simple, verifiable version early (straightforward SQL/API or heuristic) to de-risk the path.</li>
+    <li><strong>Iterate with evidence:</strong> Add complexity only if it demonstrably improves results, latency, or reliability.</li>
+    <li><strong>Design for change:</strong> Stable interfaces between components (ingest, store, serve) so each can evolve independently.</li>
+    <li><strong>Keep ops simple:</strong> Idempotent jobs, explicit rollbacks, structured logs, and basic dashboards to answer "is it healthy?"</li>
   </ul>
 
-  <h2 class="text-xl font-semibold mt-10 mb-3">Engineering practices I care about</h2>
+<h2 class="text-xl font-semibold mt-10 mb-3">Engineering practices I care about</h2>
   <ul class="list-disc ml-6 space-y-2 opacity-90">
-    <li><strong>Readable code:</strong> small modules, consistent naming, guardrails (assertions/invariants), and good boundaries.</li>
-    <li><strong>Reproducible data:</strong> deterministic exports, documented transformations, and leakage‑aware evaluation.</li>
-    <li><strong>Performance budgets:</strong> aim for predictable tail latency; cache or precompute when it simplifies serving.</li>
-    <li><strong>Documentation:</strong> short design notes and runbooks that explain intent, interfaces, and failure modes.</li>
+    <li><strong>Readable code:</strong> Small modules, consistent naming, guardrails (assertions/invariants), and good boundaries.</li>
+    <li><strong>Reproducible data:</strong> Deterministic exports, documented transformations, and leakage-aware evaluation.</li>
+    <li><strong>Performance budgets:</strong> Aim for predictable tail latency; cache or precompute when it simplifies serving.</li>
+    <li><strong>Documentation:</strong> Short design notes and runbooks that explain intent, interfaces, and failure modes.</li>
   </ul>
 
 <h2 class="text-xl font-semibold mt-10 mb-3">Selected project</h2>
@@ -71,11 +71,11 @@ import Base from "../layouts/Base.astro";
     I still create music occasionally.
   </p>
 
-  <h2 class="text-xl font-semibold mt-10 mb-3">Business background</h2>
+<h2 class="text-xl font-semibold mt-10 mb-3">Business background</h2>
   <p class="opacity-90 mb-4">
-    While I was building side projects like the book recommender and experimenting with music, I also completed a bilingual bachelor’s degree in business at HEC Montréal,
+    While I was building side projects like the book recommender and experimenting with music, I also completed a bilingual bachelor's degree in business at HEC Montréal,
     with a specialization in information technology. That gave me the <strong>business mindset most engineers lack</strong>, thinking in terms of value, trade-offs, and strategy,
-    while my projects and technical learning gave me the <strong>technical depth most business grads don’t have</strong>, especially in machine learning. This combination
+    while my projects and technical learning gave me the <strong>technical depth most business grads don't have</strong>, especially in machine learning. This combination
     means I approach problems with both the technical tools to build and the business context to prioritize.
   </p>
 
@@ -111,20 +111,20 @@ import Base from "../layouts/Base.astro";
     <li>Systems design for low-latency services, robust data contracts, and practical ML for ranking/prediction</li>
   </ul>
 
-  <h2 class="text-xl font-semibold mt-10 mb-3">Tech I use</h2>
+<h2 class="text-xl font-semibold mt-10 mb-3">Tech I use</h2>
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
     <div>
-      <h3 class="font-semibold mb-2">Languages & frameworks</h3>
+      <h3 class="font-semibold mb-2">ML & AI</h3>
       <div class="flex flex-wrap gap-2 opacity-90">
-        {["Python","FastAPI","SQL","PyTorch","Sci-kit","Rust","C#/.NET","Astro/TypeScript"].map(s => (
+        {["PyTorch","scikit-learn","LangGraph","LangChain","FAISS","Implicit (ALS)","pandas","NumPy"].map(s => (
           <span class="text-xs px-2 py-1 rounded-full border">{s}</span>
         ))}
       </div>
     </div>
     <div>
-      <h3 class="font-semibold mb-2">Data & infra</h3>
+      <h3 class="font-semibold mb-2">Backend & Infrastructure</h3>
       <div class="flex flex-wrap gap-2 opacity-90">
-        {["MySQL/MariaDB","Docker","Linux/Nginx","Azure","FAISS","Implicit (ALS)","Git/GitHub","CI/CD"].map(s => (
+        {["Python","FastAPI","SQL","AWS","Docker","Kafka","Spark","Linux/Nginx","Git/GitHub","CI/CD"].map(s => (
           <span class="text-xs px-2 py-1 rounded-full border">{s}</span>
         ))}
       </div>
