@@ -1,0 +1,14 @@
+%%{init: {'theme': 'neutral', 'themeVariables': {'fontSize': '13px'}, 'flowchart': {'rankSpacing': 30, 'nodeSpacing': 20}}}%%
+flowchart TD
+    A[Request] --> B{Cache hit?}
+    B -- yes --> Z[Return cached]
+    B -- no --> C[Fetch user profile]
+    C --> D[Model server]
+    D --> E[Candidates]
+    E --> F[asyncio.gather]
+    F --> G[Filter read books]
+    F --> H[Enrich metadata]
+    G --> I[Slice to k]
+    H --> I
+    I --> J[Write to cache]
+    J --> K[Return]

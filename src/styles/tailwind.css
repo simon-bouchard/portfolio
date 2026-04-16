@@ -15,5 +15,6 @@
 .markdown a  { @apply text-blue-700 hover:text-blue-800 hover:underline; }
 .markdown hr { @apply my-6 border-t border-slate-200; }
 .markdown img { @apply rounded-2xl border my-4; }
+.markdown img[src$=".svg"] { border: none; border-radius: 0; display: block; margin-left: auto; margin-right: auto; max-width: 100%; height: auto; }
 .markdown code { @apply rounded bg-slate-100 px-1.5 py-0.5 text-[0.9em]; }
 .markdown pre  { @apply rounded-2xl p-4 my-4 overflow-x-auto bg-slate-50; }

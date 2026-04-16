@@ -1,0 +1,11 @@
+%%{init: {'theme': 'neutral', 'themeVariables': {'fontSize': '13px'}, 'flowchart': {'rankSpacing': 30, 'nodeSpacing': 20}}}%%
+flowchart TD
+    A[(MySQL)] -->|export| B[DB backup]
+    B --> C[Training]
+    C --> D{Quality gate}
+    D -- pass --> E[Promote artifacts]
+    E --> F[Reload model servers]
+    F --> G[Flush Redis cache]
+    G --> H[Update Meilisearch]
+    D -- fail --> I[Notify failure]
+    C -- crash --> I

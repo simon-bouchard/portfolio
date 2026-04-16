@@ -1,0 +1,19 @@
+flowchart TD
+    U[User message] --> R[Router]
+
+    R --> RA[Recommendation agent]
+    R --> DA[Docs agent]
+    R --> WA[Web agent]
+    R --> RE[Response agent]
+
+    subgraph ra[Recommendation agent]
+        RA --> P[Planning]
+        P --> T[Retrieval]
+        T --> S[Selection]
+        S --> RES[Response generation]
+    end
+
+    RES --> Stream[Streamed response]
+    DA --> Stream
+    WA --> Stream
+    RE --> Stream

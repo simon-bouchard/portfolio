@@ -1,7 +1,7 @@
 ---
 title: "Book Recommendation System"
 description: "Production-grade hybrid recommender with warm/cold support, real-time similarity search, and daily retraining with hot reloads."
-stack: ["FastAPI","PyTorch","LightGBM","FAISS","Implicit (ALS)","SQL (MySQL)","Nginx","Azure"]
+stack: ["FastAPI","PyTorch","FAISS","Implicit (ALS)","LangGraph","SQL (MySQL)","Redis","Nginx"]
 featured: true
 date: "2025-08"
 demo: "https://recsys.simonbouchard.space"
@@ -21,7 +21,7 @@ tags: ["Machine Learning", "Recommender-Systems","Backend","MLOps"]
 A production-grade recommendation engine that supports both **warm users** (with prior ratings) and **cold users** (no history). It serves **personalized recommendations** and **item similarity search** with low latency, and runs on a fully automated pipeline with daily retraining and hot-reload of new artifacts.
 
 **Capabilities**
-- Serve warm users via collaborative filtering (**ALS-only**)
+- Serve warm users via **ALS collaborative filtering**
 - Serve cold users via subject embeddings and a Bayesian popularity prior
 - Provide item similarity (ALS, subject, or hybrid) with adjustable weights
 - Automate data export, training, and deployment with safe, zero-downtime reloads
@@ -29,27 +29,48 @@ A production-grade recommendation engine that supports both **warm users** (with
 **Why this dataset (and why messy on purpose)**
 I intentionally built on the classic **Book-Crossing** dataset, which is older and deliberately rough around the edges: it was crawled in 2004, ships with minimal metadata (no tags/subjects), many missing demographics (age/location often null), and historically inconsistent ISBNs that require validation/cleanup. That made the project harder—but closer to real life, where companies struggle to operationalize AI on top of **noisy, inconsistent databases**. Working through enrichment (Open Library subjects), ID normalization (ISBN → work_id), and strict split-safe aggregates prepared me for those production realities.
 
+<div class="grid grid-cols-2 gap-3">
+  <img src="/projects/book-recsys/profile_top.png" alt="User profile" />
+  <img src="/projects/book-recsys/profile_recs.png" alt="Personalized recommendations" />
+  <img src="/projects/book-recsys/book_top.png" alt="Book detail page" />
+  <img src="/projects/book-recsys/book_sim.png" alt="Similar books" />
+</div>
+
 ---
 
-## Architecture
+## Recommendation Engine
 
-### Warm users
-**Pipeline**
-1. **ALS (Implicit)** retrieves top candidates from collaborative signals.
+![System architecture](/projects/book-recsys/arch.svg)
 
-> Current warm-path is **ALS-only** (no warm reranker).
+**Embeddings**
 
-### Cold users
-**Pipeline**
-1. **Attention-pooled subject embeddings** compute similarity between a user’s favorite subjects and books.
-2. **Bayesian popularity prior** balances exploration and robustness (user-adjustable slider).
+The system uses two types of learned representations:
 
-This handles users with zero ratings reliably while still surfacing relevant items.
+- **ALS factors (collaborative):** user and item vectors learned from interaction patterns via Alternating Least Squares. Captures behavioral similarity (same author, series, reading patterns).
+- **Subject embeddings (content):** each of ~1,000 subjects has a learned embedding. Books and users are represented by attention-pooled aggregates over their subjects. Trained with a dual loss: regression on ratings anchors embeddings to actual taste signals, and contrastive loss on subject co-occurrence captures semantic relationships between subjects without explicit labels.
 
-### Item similarity modes (FAISS)
-- **ALS (behavioral):** great for same author/series; weaker on sparse/niche items.
-- **Subject similarity (content):** more coverage; slightly noisier on books with many subjects.
-- **Hybrid:** convex combination of both with a weight control.
+**Recommendation modes**
+
+- **Warm users** (have prior ratings): ALS factors retrieve top candidates from collaborative signals.
+- **Cold users** (no ratings): subject embeddings compute similarity between the user’s favorite subjects and all books, combined in parallel with a Bayesian popularity prior (user-adjustable weight). If the user has not chosen any subjects, the system falls back to popularity-only rankings.
+
+**Item similarity modes**
+
+- **ALS (behavioral):** strong for same-author or series; weaker on sparse or niche items.
+- **Subject (content):** broader coverage; slightly noisier on books with many subjects.
+- **Hybrid:** weighted combination of both, adjustable at query time.
+
+**Model servers**
+
+ML models are split across 5 independent services, each owning a non-overlapping set of artifacts. The separation minimizes memory footprint (no artifact duplication across processes) and mirrors how a scaled deployment would distribute work across hosts:
+
+- **Embedder:** attention-pooled subject embeddings (PyTorch)
+- **Similarity:** subject HNSW index, ALS HNSW index, hybrid FlatIP index
+- **ALS:** user/item factors, warm-user detection
+- **Metadata:** book metadata lookup, Bayesian popularity scores
+- **Semantic:** FAISS vector index for semantic search
+
+Single-index lookups use **HNSW** for fast approximate search. Hybrid similarity blends subject and ALS score vectors at query time and requires a **FlatIP index** because HNSW does not support the inner product scoring needed to correctly combine two score vectors.
 
 ---
 
@@ -61,57 +82,111 @@ This handles users with zero ratings reliably while still surfacing relevant ite
 
 **Attention pooling**
 - Weights the most informative subjects per book or user.
-- Multiple strategies supported (scalar, per-dimension, transformer/self-attention).
+- Per-dimension attention was chosen over scalar (better recall, negligible latency cost) and transformer self-attention (required significantly more parameters and tuning to meaningfully outperform per-dimension, at higher serving cost).
 
 ---
 
 ## Automation & Deployment
 
 - **Data pipeline:** normalized SQL schema (users, books, subjects, interactions).
-- **Training server:** scheduled daily jobs (ALS, aggregates, exports).
-- **Inference server:** **hot-reloads** models/artifacts with **zero downtime**.
-- **FastAPI backend:** paginated endpoints, caching, and auth; served via **uvicorn + Nginx**.
-- **Web frontend:** browse/search/rate and receive real-time recommendations.
-- **(Planned) Vector job:** periodic LLM-agent enrichment → embeddings → index refresh, versioned for atomic hot-reloads.
+- **Training pipeline:** scheduled daily via a **systemd timer**. The pipeline is linear (9 steps) and simple enough that a full orchestrator like Airflow would add infrastructure without much benefit. Systemd handles scheduling, restarts on failure, and email notifications.
+- **Quality gate:** before promoting new artifacts, recall@30 is evaluated on the full training set. If it falls below threshold, the new version is blocked and a failure notification is sent.
+- **Hot-reload:** each model server reloads from a shared version pointer file. The training pipeline writes a new version and signals all 5 servers independently, with zero downtime.
+- **5 model servers:** each owns a non-overlapping set of artifacts, minimizing memory footprint and mirroring how a distributed deployment would partition work across hosts.
+- **FastAPI backend:** paginated endpoints, caching, and auth; served via **Gunicorn + Nginx**.
+
+![Training pipeline](/projects/book-recsys/training-pipeline.svg)
+
+**Inference pipeline**
+
+Both recommendation and similarity paths check the Redis cache first; on a miss the pipeline runs and the result is written back before returning. The filter (remove already-read books) and metadata enrichment steps in the recommendation path run concurrently via `asyncio.gather` since both only need the candidate ID list. This reduces the combined cost from roughly sequential to the max of the two, cutting the tail significantly.
+
+![Recommendation inference pipeline](/projects/book-recsys/inference-pipeline.svg)
 
 ---
 
 ## Semantic Search & Information Enrichment
 
-The system supports **semantic vector search** for catalog-grounded recommendations and chatbot queries.
-Before embedding, a dedicated **Enrichment Agent** runs as an offline job to refine and filter catalog metadata.
-It restructures each book entry into a concise, schema-locked format optimized for LLM embeddings—combining **title, author, subjects, tone, genre,** and **vibe** into a unified description.
+The chatbot's recommendation agent uses **semantic vector search** to interpret natural language queries and return catalog-grounded results. The search is powered by LLM-enriched book metadata.
 
-The enrichment process operates through a **Kafka-based pipeline** with tiered data quality handling.
-Two **Spark jobs** process the results: one ingests enriched data into SQL for serving, while another archives raw objects in a data lake for versioned storage. An **incremental embedding job** encodes newly enriched books continuously, keeping the vector index up to date without full reprocessing.
+**Enrichment pipeline**
+Before embedding, each book is tagged with subjects, tone, genre, and vibe by a small LLM. To contain hallucination on sparse books (roughly half the catalog), an **information availability score** is computed per book from description length and Open Library subject count. Books are bucketed into quality tiers: richer books produce more tags; sparse books produce fewer or none. The model only generates what the available metadata can support, which improved retrieval quality over the naive approach of prompting uniformly.
 
-These embeddings power **semantic vector retrieval**, which the chatbot uses to interpret natural language book queries, understand tone or theme-based descriptions, and return catalog-grounded results aligned with user intent.
+The enrichment ran once over ~250k books using an **Ollama 3–7B model via API**. Running a model locally was not feasible given the server's resources, and using a larger model or adding web search access would have reduced hallucination more effectively but at prohibitive cost at this scale (GPT-4o would have been hundreds of dollars). The data quality tier approach was the cost-constrained workaround: the 3–7B model completed the full run for $5–10, and restricting output quantity by available metadata kept hallucination contained without discarding good output for well-documented books.
+
+The pipeline was built with **Kafka and Spark**, partly because remaking the enrichment layer coincided with learning those tools, and the structure supports incremental re-runs.
 
 ---
 
 ## Chatbot
 
-The integrated chatbot acts as a **virtual librarian** — a multi-turn assistant built with **LangGraph**.
-It leverages the same internal tools as the recommendation engine and adds conversational reasoning and retrieval capabilities.
+![Chatbot interface](/projects/book-recsys/chatbot.png)
 
-**Current architecture**
-- Built as a **multi-agent system** orchestrated through LangGraph.
-- A central **Router Agent** interprets the query and dispatches it to one of four branches:
-  - **Conversational** — direct LLM dialogue and reasoning.
-  - **Docs** — retrieves and reasons over site documentation (ReAct loop).
-  - **Web Search** — external lookups for recent or out-of-catalog books (ReAct loop).
-  - **Recsys** — produces catalog-grounded recommendations and explanations.
-- The **Recsys branch** itself includes two cooperating agents:
-  - **Candidate Generator** — retrieves books using ALS, FAISS, and vector-based retrieval.
-  - **Curator/Explainer** — filters, ranks, and explains selected results.
-- Maintains **multi-turn memory** for context-aware, natural conversations.
+The integrated chatbot is a multi-turn virtual librarian built with **LangGraph**.
 
-**Roadmap**
-- Introduce a **Planner Agent** to manage multi-step reasoning and tool planning.
-- Expand the Recsys branch into a full four-stage structure:
-  <br>_planner → candidate generation → curation → explanation_.
-- Add a lightweight **Dialogue Manager** for long-session coordination.
-- Improve **context summarization** for more sustained memory across sessions.
+**Architecture**
+A central **Router** classifies the intent of each message and dispatches it to one of four specialized agents:
+- **Response agent:** handles direct answers, greetings, and clarifications requiring no tool use.
+- **Docs agent:** answers questions about the platform (ReAct loop).
+- **Web agent:** external lookups for recent or out-of-catalog books (ReAct loop).
+- **Recommendation agent:** multi-stage pipeline: planning → retrieval → selection → response.
+
+The **Recommendation agent** is the most complex. A Planner selects which retrieval tools to call; a Retrieval step executes them (ALS, subject similarity, semantic search); a Selection step filters and ranks candidates; a Response step generates the explanation.
+
+Responses are streamed to the client via SSE. Conversation history is stored in Redis per session, with per-user rate limiting enforced independently.
+
+**LLM cost tradeoff**
+Complex agents (recommendation, docs, web) use **GPT-4o** where reasoning quality and instruction-following matter. Simpler agents (router, planner, response) use **Ollama 70B via API**, sufficient for structured classification and planning tasks at a fraction of the cost.
+
+**Why LangGraph**
+The chatbot started as a raw LangChain chain. As it grew multi-agent, the volume of custom routing and state management code became hard to maintain. Switching to LangGraph (which models the agent graph explicitly) replaced most of that boilerplate and significantly reduced the overall codebase.
+
+Users can opt in via a UI toggle to share their profile (favorite subjects and reading history) with the agent, personalizing both candidate retrieval and the generated prose.
+
+![Chatbot agent routing](/projects/book-recsys/chatbot-agents.svg)
+
+---
+
+## Observability
+
+**Metrics (Prometheus + Grafana)**
+- Request counters and latency histograms per path (recommendations, similarity, search, chat).
+- Drift monitoring tracked on every request with zero added latency: score distribution histograms, result count distributions, and empty-result rate counters. Alert rules fire when any metric crosses a per-mode threshold.
+- Click-through rate tracked per recommendation surface (recommendations, similar, chatbot) and mode to measure model usefulness from actual user behaviour.
+
+**Distributed tracing (OpenTelemetry + Jaeger)**
+- Auto-instrumented for FastAPI, httpx (model server calls), and SQLAlchemy.
+- Manual spans added at service and pipeline boundaries, including the full chatbot pipeline (router classification, each agent, all four recommendation stages, and per-tool spans). Trace context propagated across the SSE streaming boundary so all spans remain correctly parented.
+
+![Jaeger distributed trace for a recommendation request](/projects/book-recsys/jaeger_rec.png)
+
+---
+
+## CI/CD
+
+GitHub Actions runs on every push and pull request:
+
+1. **Backend:** ruff lint and format check, pytest unit tests.
+2. **Frontend:** ESLint, TypeScript type check, Vite build.
+3. **Deploy** (master push only, after both pass): SSH trigger runs a deploy script on the production server: git pull, frontend build, service restart, health check loop.
+
+---
+
+## Testing & Evals
+
+Tests are organized into three layers.
+
+**Unit tests** (run in CI) cover the recommendation pipelines, ranker and filter logic, all 5 model server HTTP handlers, the HTTP client layer, artifact registry and path resolution, and the training quality gate. All I/O and ML dependencies are mocked.
+
+**Integration tests** require the live system with model servers running and artifacts loaded. They verify response contracts (warm/cold routing, score sort order, k-bound enforcement) and include latency benchmarks per endpoint. Chatbot integration tests cover multi-turn state, context builder correctness, error boundaries, and concurrency.
+
+**Agent evaluations** are an LLM-judged suite organized by use case with multiple scored examples per case. Each stage of the recommendation agent is evaluated separately and end-to-end:
+- **Planner:** compared against expected tool selections; no LLM judge needed since output is structured JSON.
+- **Retrieval:** verifies plan adherence, correct tool arguments, error recovery, and adaptive strategy when initial results are poor.
+- **Selection:** verifies output count, no duplicates, no more than two books per author, and negative constraints respected.
+- **Response:** LLM judges score the opening paragraph, per-book descriptions, and closing paragraph against specific criteria.
+
+Results are tracked with a comparison dashboard that diffs each run against the previous one.
 
 ---
 
@@ -160,14 +235,14 @@ Result: a clean, normalized SQL schema with stable IDs, consistent metadata, and
 
 ## Research & Experiments
 
-Explorations to balance **accuracy, latency, and complexity**:
-- Residual MLPs over dot-product and LGBM predictions
-- Two-tower and three-tower architectures
-- Clustering and regression methods for user embeddings
-- Gated-fusion mechanisms
-- Alternative attention pooling (scalar, per-dimension, transformer/self-attention)
+**Retrieval architectures**
+GBT rerankers on top of ALS were explored but dropped: the available user metadata was too sparse to add meaningful signal (age 50% missing, location 97% from one region), so the reranker did not improve recall while adding latency. Residual MLPs and two-tower architectures both worked but showed the same pattern: added latency without improving recall over a simpler dot-product approach. The final stack pushes complexity into training and keeps inference to dot products and matrix lookups at serving time.
 
-Findings informed the production choices and simplified serving paths.
+**Cold-start embeddings**
+Clustering and regression over user metadata were tried first. With metadata this sparse, results were poor: regression embeddings collapsed toward the global average, and clustering assigned most users to the same popular cluster. Subject-preference embeddings derived directly from favorite subjects generalized much better.
+
+**Attention pooling**
+Scalar, per-dimension, and transformer self-attention were all evaluated. Per-dimension attention outperformed scalar with virtually no added latency. Transformer self-attention required significantly more parameters and tuning (heads, layers) to meaningfully outperform per-dimension, at higher serving cost. Per-dimension was the clear choice.
 
 ---
 
@@ -235,5 +310,7 @@ Findings informed the production choices and simplified serving paths.
 
 ## Tech Stack
 
-**Python**, **FastAPI**, **PyTorch**, **LightGBM**, **FAISS**, **Implicit (ALS)**,
-**SQL (MySQL)**, **Nginx + uvicorn**, **Azure**, **Systemd**, **LangChain**, **Redis**.
+**Python**, **FastAPI**, **PyTorch**, **FAISS**, **Implicit (ALS)**, **Sentence-Transformers**,
+**SQL (MySQL)**, **Redis**, **Meilisearch**, **Nginx + Gunicorn**, **Systemd**,
+**LangChain**, **LangGraph**, **OpenTelemetry**, **Prometheus**, **Grafana**, **Jaeger**,
+**Kafka**, **Spark**, **Docker**, **GitHub Actions**.

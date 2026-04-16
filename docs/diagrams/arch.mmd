@@ -1,0 +1,39 @@
+graph TD
+    Browser([Browser]) --> Nginx
+
+    subgraph prod[Production Server]
+        Nginx --> Backend[FastAPI Backend]
+
+        subgraph stores[Data Stores]
+            MySQL[(MySQL)]
+            Redis[(Redis)]
+            Meilisearch[(Meilisearch)]
+        end
+
+        Backend --> MySQL
+        Backend --> Redis
+        Backend --> Meilisearch
+
+        subgraph ms[Model Servers]
+            direction LR
+            Emb[Embedder]
+            Sim[Similarity]
+            ALS[ALS]
+            Meta[Metadata]
+            Sem[Semantic]
+        end
+
+        Backend --> ms
+        Artifacts[(Artifacts)] --> ms
+        Training[Training Pipeline] -->|reads| MySQL
+        Training -->|promotes| Artifacts
+        Training -.->|reload| ms
+
+        subgraph obs[Observability]
+            Prom[Prometheus] --> Graf[Grafana]
+            Jaeger
+        end
+
+        Backend -->|metrics| Prom
+        Backend -->|traces| Jaeger
+    end
