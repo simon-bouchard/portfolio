@@ -1,7 +1,18 @@
 @import "tailwindcss";
 
+@theme {
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
+
+  --color-ink: #14161b;
+  --color-paper: #faf9f6;
+  --color-line: #e3e0d8;
+  --color-graphite: #5b5f6b;
+  --color-blueprint: #2a4494;
+}
+
 /* Site-consistent Markdown (light mode only) */
-.markdown { @apply text-base leading-7 text-slate-900; }
+.markdown { @apply text-base leading-7 text-ink; }
 
 .markdown h1 { @apply text-3xl font-bold mt-6 mb-4; }
 .markdown h2 { @apply text-xl font-semibold mt-8 mb-3; }
@@ -12,15 +23,15 @@
 .markdown ol { @apply list-decimal pl-5 my-3; }
 .markdown li { @apply my-1; }
 
-.markdown a  { @apply text-blue-700 hover:text-blue-800 hover:underline; }
-.markdown hr { @apply my-6 border-t border-slate-200; }
-.markdown img { @apply rounded-2xl border my-4; }
+.markdown a  { @apply text-blueprint hover:opacity-80 hover:underline; }
+.markdown hr { @apply my-6 border-t border-line; }
+.markdown img { @apply rounded-2xl border border-line my-4; }
 .markdown img[src$=".svg"] { border: none; border-radius: 0; display: block; margin-left: auto; margin-right: auto; max-width: 100%; height: auto; }
-.markdown :not(pre) > code { @apply rounded bg-slate-100 px-1.5 py-0.5 text-[0.9em]; }
+.markdown :not(pre) > code { @apply rounded bg-line/40 px-1.5 py-0.5 text-[0.9em] font-mono; }
 .markdown pre  { @apply rounded-2xl p-4 my-4 overflow-x-auto; }
 .markdown pre code { @apply bg-transparent p-0 rounded-none text-[0.9em]; }
 
 .markdown table { @apply w-full my-4 border-collapse text-sm block overflow-x-auto whitespace-nowrap; }
-.markdown th, .markdown td { @apply border border-slate-200 px-3 py-1.5 text-left; }
-.markdown th { @apply bg-slate-50 font-semibold; }
-.markdown tbody tr:nth-child(even) { @apply bg-slate-50/60; }
+.markdown th, .markdown td { @apply border border-line px-3 py-1.5 text-left; }
+.markdown th { @apply bg-line/30 font-semibold; }
+.markdown tbody tr:nth-child(even) { @apply bg-line/20; }

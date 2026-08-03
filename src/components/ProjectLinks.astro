@@ -19,12 +19,12 @@ const {
 const pad = size === "sm" ? "px-2.5 py-1 text-xs" : "px-3.5 py-1.5 text-sm";
 
 const base =
-  "inline-flex items-center gap-1.5 rounded-xl transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500";
+  "inline-flex items-center gap-1.5 rounded-lg font-mono transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blueprint";
 
 const primary =
-  `${base} ${pad} bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800`;
+  `${base} ${pad} bg-blueprint text-paper hover:opacity-90`;
 const secondary =
-  `${base} ${pad} border border-slate-300 text-slate-900 hover:bg-slate-50`;
+  `${base} ${pad} border border-line text-ink hover:border-blueprint hover:text-blueprint`;
 
 const ext = "↗";
 

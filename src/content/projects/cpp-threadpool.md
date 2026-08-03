@@ -30,8 +30,6 @@ A thread pool with work-stealing and dependency-graph scheduling, written in C++
 
 ## Architecture
 
-![Thread pool architecture: submit() spreads tasks round-robin across three workers' deques, idle workers steal from busy neighbors](/projects/cpp-threadpool/architecture.svg)
-
 Fresh submissions are spread round-robin across a fixed set of workers, each holding its own deque. When a worker finishes a task, any dependent tasks that just became ready are pushed onto that same worker's own queue rather than round-robined, which is also why a worker can end up with more queued work than its neighbors. Idle workers correct that imbalance by stealing from a busy neighbor's queue instead of blocking on a shared structure.
 
 ## Design notes

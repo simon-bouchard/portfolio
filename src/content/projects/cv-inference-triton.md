@@ -6,7 +6,7 @@ featured: false
 date: "2026-05"
 repo: "https://github.com/simon-bouchard/cv-inference-triton"
 cover: "/projects/cv-inference-triton/cover.png"
-icon: "/projects/cv-inference-triton/icon.svg"
+icon: "/projects/cv-inference-triton/icon.png"
 highlights:
   - "YOLOv8s served via Triton ensembles: preprocess → model → postprocess, with ONNX and TensorRT FP16 variants"
   - "Custom C++ Triton backend for preprocessing removes the Python GIL bottleneck: -42% latency, +31% peak throughput in isolation"

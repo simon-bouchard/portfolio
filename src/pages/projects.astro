@@ -27,7 +27,7 @@ const projects = (await getCollection("projects"))
         class={`rounded-2xl p-5 hover:shadow-sm transition ${
           p.data.featured
             ? "border-amber-400 bg-amber-50/40 ring-1 ring-amber-300"
-            : "border"
+            : "border border-line hover:border-blueprint/40"
         }`}
       >
         <a href={`/projects/${p.slug}/`} class="block">
@@ -39,7 +39,7 @@ const projects = (await getCollection("projects"))
             />
             {p.data.title}
             {p.data.featured && (
-              <span class="text-[10px] font-medium rounded-md px-1.5 py-0.5 bg-amber-400 text-slate-900 shadow-sm">
+              <span class="text-[10px] font-mono font-medium rounded-md px-1.5 py-0.5 bg-amber-400 text-ink shadow-sm">
                 Featured
               </span>
             )}
@@ -48,7 +48,7 @@ const projects = (await getCollection("projects"))
         </a>
         <div class="mt-3 flex flex-wrap gap-2">
           {p.data.stack.slice(0, 5).map((s) => (
-            <span class="text-xs px-2 py-1 rounded-full border opacity-80">
+            <span class="text-xs px-2 py-1 rounded-full border border-line font-mono opacity-80">
               {s}
             </span>
           ))}

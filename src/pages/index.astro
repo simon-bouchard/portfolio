@@ -16,6 +16,7 @@ const featured = (await getCollection("projects"))
   <!-- HERO -->
   <section class="grid md:grid-cols-2 gap-10 items-start">
     <div>
+      <p class="font-mono text-xs uppercase tracking-[0.2em] text-blueprint mb-3">Agentic AI / Backend / Data Pipelines</p>
       <h1 class="text-4xl font-bold leading-tight">LLM Agents & Backend Developer</h1>
 
       <p class="mt-4 text-lg opacity-90">
@@ -39,28 +40,27 @@ const featured = (await getCollection("projects"))
           "PyTorch","LightGBM","SQL","Linux/Nginx","Docker","AWS","Git",
           "Scikit", "Langraph", "Spark"
         ].map((s) => (
-          <li class="text-xs px-2 py-1 rounded-full border opacity-90">{s}</li>
+          <li class="text-xs px-2 py-1 rounded-full border border-line font-mono opacity-90">{s}</li>
         ))}
       </ul>
 
       <!-- CTAs -->
       <div class="mt-6 flex flex-wrap gap-3">
-        <a href="/projects/" class="px-4 py-2 rounded-xl border hover:shadow-sm">Projects</a>
-        <!-- <a href="/experience/" class="px-4 py-2 rounded-xl border hover:shadow-sm">Experience</a> -->
-        <a href="/contact/" class="px-4 py-2 rounded-xl border hover:shadow-sm">Links</a>
-        <a href="/about/" class="px-4 py-2 rounded-xl border hover:shadow-sm">About</a>
+        <a href="/projects/" class="px-4 py-2 rounded-lg bg-blueprint text-paper font-mono text-sm hover:opacity-90 transition">Projects</a>
+        <!-- <a href="/experience/" class="px-4 py-2 rounded-lg border border-line font-mono text-sm hover:border-blueprint hover:text-blueprint transition">Experience</a> -->
+        <a href="/contact/" class="px-4 py-2 rounded-lg border border-line font-mono text-sm hover:border-blueprint hover:text-blueprint transition">Links</a>
+        <a href="/about/" class="px-4 py-2 rounded-lg border border-line font-mono text-sm hover:border-blueprint hover:text-blueprint transition">About</a>
       </div>
 
       <p class="mt-4 text-sm opacity-75">
         Currently exploring: robust agent design (planning, tool routing, memory) and
-        O'Reilly's <em>Data Engineering Design Patterns</em> to deepen pipeline reliability,
-        lineage, and deployment practices.
+        modern C++ (concurrency, memory model, RAII) to deepen my low-level systems understanding.
       </p>
     </div>
 
     <!-- Quick highlights -->
     <div class="space-y-4">
-      <div class="border rounded-2xl p-5 space-y-4">
+      <div class="border border-line rounded-2xl p-5 space-y-4">
         <div>
           <div class="text-sm font-semibold">Agentic Systems</div>
           <p class="text-sm opacity-85">
@@ -83,8 +83,8 @@ const featured = (await getCollection("projects"))
       </div>
 
       <!-- Certifications -->
-      <div class="border rounded-2xl p-5 space-y-3 bg-gradient-to-br from-blue-50/50 to-sky-50/50">
-        <h3 class="text-sm font-semibold text-slate-900">Certifications</h3>
+      <div class="border border-line rounded-2xl p-5 space-y-3 bg-gradient-to-br from-blueprint/5 to-blueprint/10">
+        <h3 class="text-sm font-semibold text-ink">Certifications</h3>
         <div class="space-y-3">
           {certifications.map((cert) => (
             <div class="flex gap-3 items-start">
@@ -103,7 +103,7 @@ const featured = (await getCollection("projects"))
                   href={cert.verifyUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="text-xs text-blue-600 hover:text-blue-700 hover:underline inline-flex items-center gap-1 mt-1"
+                  class="text-xs font-mono text-blueprint hover:opacity-80 hover:underline inline-flex items-center gap-1 mt-1"
                 >
                   Verify →
                 </a>
@@ -121,7 +121,7 @@ const featured = (await getCollection("projects"))
       <h2 class="text-xl font-semibold mb-4">Featured</h2>
       <div class="grid gap-6 md:grid-cols-2">
         {featured.map((p) => (
-          <article class="border rounded-2xl p-5 hover:shadow-sm">
+          <article class="border border-line rounded-2xl p-5 hover:border-blueprint/40 hover:shadow-sm transition">
             <a href={`/projects/${p.slug}/`} class="block">
               <div class="flex items-center justify-between">
                 <h3 class="text-lg font-semibold flex items-center gap-2">
@@ -133,7 +133,7 @@ const featured = (await getCollection("projects"))
               <p class="mt-2 text-sm opacity-90">{p.data.description}</p>
               <div class="mt-3 flex flex-wrap gap-2">
                 {p.data.stack.slice(0,5).map((s) => (
-                  <span class="text-xs px-2 py-1 rounded-full border opacity-80">{s}</span>
+                  <span class="text-xs px-2 py-1 rounded-full border border-line font-mono opacity-80">{s}</span>
                 ))}
               </div>
             </a>
