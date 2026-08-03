@@ -16,5 +16,11 @@
 .markdown hr { @apply my-6 border-t border-slate-200; }
 .markdown img { @apply rounded-2xl border my-4; }
 .markdown img[src$=".svg"] { border: none; border-radius: 0; display: block; margin-left: auto; margin-right: auto; max-width: 100%; height: auto; }
-.markdown code { @apply rounded bg-slate-100 px-1.5 py-0.5 text-[0.9em]; }
-.markdown pre  { @apply rounded-2xl p-4 my-4 overflow-x-auto bg-slate-50; }
+.markdown :not(pre) > code { @apply rounded bg-slate-100 px-1.5 py-0.5 text-[0.9em]; }
+.markdown pre  { @apply rounded-2xl p-4 my-4 overflow-x-auto; }
+.markdown pre code { @apply bg-transparent p-0 rounded-none text-[0.9em]; }
+
+.markdown table { @apply w-full my-4 border-collapse text-sm block overflow-x-auto whitespace-nowrap; }
+.markdown th, .markdown td { @apply border border-slate-200 px-3 py-1.5 text-left; }
+.markdown th { @apply bg-slate-50 font-semibold; }
+.markdown tbody tr:nth-child(even) { @apply bg-slate-50/60; }

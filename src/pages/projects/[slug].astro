@@ -17,7 +17,7 @@ const { Content } = await project.render();
   <article class="mx-auto max-w-3xl">
     <header class="mb-6">
     <h1 class="text-3xl font-bold flex items-center gap-2">
-      <img src={`/projects/${project.slug}/icon.png`} alt="" class="size-6 rounded" />
+      <img src={data.icon ?? `/projects/${project.slug}/icon.png`} alt="" class="size-6 rounded" />
       {data.title}
     </h1> 
     <p class="mt-2 opacity-90">{data.description}</p>

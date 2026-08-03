@@ -14,6 +14,7 @@ const projectsCollection = defineCollection({
     repo: z.string().url().optional(),    // GitHub
     link: z.string().url().optional(),    // legacy field (optional fallback)
     cover: z.string().optional(),
+    icon: z.string().optional(),          // defaults to /projects/<slug>/icon.png
     highlights: z.array(z.string()).optional(),
     tags: z.array(z.string()).optional(),
   }),
