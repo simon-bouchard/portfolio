@@ -1,43 +1,44 @@
-# Astro Starter Kit: Minimal
+# simonbouchard.space
 
-```sh
-npm create astro@latest -- --template minimal
-```
+Source for my personal portfolio site, built with [Astro](https://astro.build) and [Tailwind CSS](https://tailwindcss.com).
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Live at **[simonbouchard.space](https://simonbouchard.space)**.
 
-## 🚀 Project Structure
+## Structure
 
-Inside of your Astro project, you'll see the following folders and files:
+Projects and experience entries are content-driven, not hardcoded — adding a new project is just a new Markdown file:
 
 ```text
 /
 ├── public/
+│   └── projects/<slug>/        # cover.jpg, icon.png/svg per project
 ├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+│   ├── content/
+│   │   ├── projects/*.md       # one file per project (frontmatter: title, stack, cover, icon, ...)
+│   │   └── experience/*.md
+│   ├── components/
+│   ├── layouts/Base.astro      # shared shell: nav, header, footer
+│   └── pages/                  # routes (projects/[slug].astro renders each project page)
+└── astro.config.mjs
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+Schemas for the `projects` and `experience` collections live in `src/content/config.ts`.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+## Commands
 
-Any static assets, like images, can be placed in the `public/` directory.
+All commands run from the project root:
 
-## 🧞 Commands
+| Command             | Action                                       |
+| :------------------ | :-------------------------------------------- |
+| `npm install`        | Install dependencies                          |
+| `npm run dev`         | Start local dev server at `localhost:4321`   |
+| `npm run build`       | Build production site to `./dist/`           |
+| `npm run preview`     | Preview the production build locally          |
 
-All commands are run from the root of the project, from a terminal:
+## Deploy
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+```sh
+npm run build && ./deploy.sh
+```
 
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+`deploy.sh` rsyncs `dist/` over SSH to the production VPS.
