@@ -5,7 +5,7 @@ stack: ["PyTorch", "ONNX", "TensorRT", "Triton Inference Server", "C++", "Python
 featured: false
 date: "2026-05"
 repo: "https://github.com/simon-bouchard/cv-inference-triton"
-cover: "/projects/cv-inference-triton/cover.png"
+cover: "/projects/cv-inference-triton/cover.jpg"
 icon: "/projects/cv-inference-triton/icon.png"
 highlights:
   - "YOLOv8s served via Triton ensembles: preprocess → model → postprocess, with ONNX and TensorRT FP16 variants"

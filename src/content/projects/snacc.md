@@ -4,7 +4,7 @@ description: "A cross-platform command-line tool that automates my Kaggle + LLM 
 stack: ["Rust","Cargo workspace","GitHub Actions","Cross-platform packaging"]
 date: "2025-07"
 repo: "https://github.com/simonbouchard/snacc" 
-cover: "/projects/snacc/cover.png"
+cover: "/projects/snacc/cover.jpg"
 highlights:
   - "Automates Kaggle workflow: watches downloads folder, copies notebook code cells for LLM input"
   - "Includes `tree` command to export clean project structures in an LLM-friendly format"

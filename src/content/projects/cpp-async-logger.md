@@ -5,7 +5,7 @@ stack: ["C++23", "CMake", "GoogleTest", "ASan/UBSan/TSan", "GitHub Actions"]
 featured: false
 date: "2026-07"
 repo: "https://github.com/simon-bouchard/cpp-async-logger"
-cover: "/projects/cpp-async-logger/cover.PNG"
+cover: "/projects/cpp-async-logger/cover.jpg"
 icon: "/projects/cpp-async-logger/icon.svg"
 highlights:
   - "Swap-and-release buffering: log() never blocks on sink I/O"

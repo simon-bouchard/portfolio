@@ -5,7 +5,7 @@ stack: ["PyTorch", "EfficientNet-V2", "ONNX", "Mapillary API", "GeoPandas"]
 featured: false
 date: "2026-05"
 repo: "https://github.com/simon-bouchard/geo-classifier-quebec"
-cover: "/projects/geo-classifier-quebec/cover.png"
+cover: "/projects/geo-classifier-quebec/cover.jpg"
 icon: "/projects/geo-classifier-quebec/icon.png"
 highlights:
   - "92.0% validation / 89.8% test accuracy across 17 regions (0.898 macro F1)"

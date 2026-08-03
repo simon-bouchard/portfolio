@@ -6,7 +6,7 @@ featured: true
 date: "2025-08"
 demo: "https://recsys.simonbouchard.space"
 repo: "https://github.com/simon-bouchard/book-recommendation-platform"
-cover: "/projects/book-recsys/cover.png"
+cover: "/projects/book-recsys/cover.jpg"
 highlights:
   - "Warm users: ALS retrieval"
   - "Cold users: attention-pooled subject embeddings + Bayesian popularity prior"

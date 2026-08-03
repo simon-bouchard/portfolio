@@ -6,7 +6,7 @@ featured: false
 date: "2025-02"
 demo: "https://game.simonbouchard.space"
 repo: "https://github.com/simon-bouchard/freecodecamp-project-secure-real-time-multiplayer-game"
-cover: "/projects/coin-race/cover.png"
+cover: "/projects/coin-race/cover.jpg"
 highlights:
   - "Real-time multiplayer with Socket.IO over WebSockets"
   - "Server-authoritative collision, scoring, and coin respawns"
