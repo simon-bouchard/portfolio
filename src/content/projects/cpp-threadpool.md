@@ -6,7 +6,7 @@ featured: false
 date: "2026-07"
 repo: "https://github.com/simon-bouchard/cpp-threadpool"
 cover: "/projects/cpp-threadpool/cover.PNG"
-icon: "/projects/cpp-threadpool/icon.PNG"
+icon: "/projects/cpp-threadpool/icon.png"
 highlights:
   - "Dependency-graph scheduling: tasks wait on others via a per-task waiter_list, become runnable when their dependency count hits zero"
   - "Failure propagation across transitive and diamond-shaped dependency chains — a thrown dependency skips everything downstream"
