@@ -37,18 +37,31 @@ import Base from "../layouts/Base.astro";
     <li><strong>Documentation:</strong> Short design notes and runbooks that explain intent, interfaces, and failure modes.</li>
   </ul>
 
-<h2 class="text-xl font-semibold mt-10 mb-3">Selected project</h2>
+<h2 class="text-xl font-semibold mt-10 mb-3">Selected projects</h2>
   <p class="opacity-90">
     <strong>Book Recommendation System (production):</strong> End-to-end ML platform with a real-time recommendation engine
     and conversational AI interface. The recommendation API serves personalized suggestions with sub-50ms latency using
     dual-factor architecture (ALS collaborative filtering + attention-pooled subject embeddings). Built a multi-agent
-    chatbot on top using LangGraph that orchestrates 8+ specialized tools to provide natural language access to the
-    recommendation system, semantic search, and external knowledge sources.
+    chatbot on top using LangGraph: a central router dispatches each message to one of four specialized agents
+    (response, docs, web, recommendation), coordinating natural language access to the recommendation system,
+    semantic search, and external knowledge sources.
   </p>
   <ul class="list-disc ml-6 space-y-2 opacity-90 mt-3">
     <li><strong>Recommendation engine:</strong> ALS collaborative filtering for warm users, attention-pooled subject embeddings for cold-start, hybrid similarity search, automated MLOps pipeline with scheduled retraining and hot-reload deployments achieving sub-50ms inference.</li>
-    <li><strong>Conversational agent:</strong> LangGraph-based multi-agent system with router/conductor/specialized agents, RAG with FAISS vector search for semantic retrieval, tool orchestration (recommendation APIs, catalog search, web search), and multi-turn conversation memory.</li>
+    <li><strong>Conversational agent:</strong> LangGraph-based multi-agent system with a central router and four specialized agents, RAG with FAISS vector search for semantic retrieval, tool orchestration (recommendation APIs, catalog search, web search), and multi-turn conversation memory.</li>
     <li><strong>Data infrastructure:</strong> Event-driven enrichment pipeline (Kafka, Spark) for semantic metadata generation, normalized SQL schema, vector index management, and comprehensive testing suite (55+ integration tests).</li>
+  </ul>
+
+  <p class="opacity-90 mt-6">
+    <strong>CV Inference Serving with Triton:</strong> Deployed computer vision models on NVIDIA Triton
+    Inference Server on a home GPU rig, following a deliberate experimental arc where each optimization exposed the
+    next bottleneck — ending at +34% throughput and -30% latency end-to-end, with the GPU itself becoming the limiting
+    factor instead of software overhead.
+  </p>
+  <ul class="list-disc ml-6 space-y-2 opacity-90 mt-3">
+    <li><strong>Model optimization:</strong> ONNX and TensorRT FP16 variants benchmarked with <code>perf_analyzer</code>; TensorRT cut GPU compute time 33% and raised isolated throughput 50%.</li>
+    <li><strong>Custom C++ backend:</strong> Replaced GIL-bound Python preprocessing with a compiled C++ Triton backend — 42% lower latency, 31% higher peak throughput.</li>
+    <li><strong>Rigorous diagnosis:</strong> Correctly attributed dynamic batching's lack of benefit to a compute-saturated GPU with zero spare CUDA parallelism, and found TensorRT isn't a universal win — it regressed single-request latency on a second model due to conversion overhead.</li>
   </ul>
 
 <h2 class="text-xl font-semibold mt-10 mb-3">Before programming</h2>
@@ -108,7 +121,7 @@ import Base from "../layouts/Base.astro";
 
   <h3 class="font-semibold mt-6 mb-2">Current Focus</h3>
   <ul class="list-disc ml-6 space-y-1 opacity-90">
-    <li>Systems design for low-latency services, robust data contracts, and practical ML for ranking/prediction</li>
+    <li>Systems design for low-latency services (explored via Triton/TensorRT inference optimization) and concurrency (C++ thread pool, async logger), robust data contracts, and practical ML for ranking/prediction</li>
   </ul>
 
 <h2 class="text-xl font-semibold mt-10 mb-3">Tech I use</h2>
