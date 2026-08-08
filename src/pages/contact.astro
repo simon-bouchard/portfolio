@@ -13,29 +13,50 @@ const jsonLd = {
 };
 ---
 <Base title="Links — Simon Bouchard" description="Find me on LinkedIn, GitHub, Kaggle, and more.">
-  <h1 class="text-2xl font-bold mb-4">Links</h1>
-  <p class="mb-6 opacity-90">Connect with me on these platforms:</p>
+  <h1 class="text-2xl font-bold mb-6">Links</h1>
 
-  <!-- Cards -->
-  <!-- If you made SocialGrid.astro: -->
-  <!--
-  <SocialGrid items={socials} />
-  -->
-
-  <!-- Or inline (no extra component): -->
-  <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-    {socials.map((s) => (
-      <a href={s.href} target="_blank" rel="noopener noreferrer"
+  <!-- Resume -->
+  <section class="mb-8">
+    <h2 class="font-semibold mb-3">Resume</h2>
+    <div class="grid gap-4 sm:grid-cols-2">
+      <a href="/resume-en.pdf" target="_blank" rel="noopener noreferrer"
          class="block rounded-2xl border border-line p-4 hover:border-blueprint/40 hover:shadow-sm transition"
-         aria-label={s.label} title={s.label}>
+         aria-label="Resume (English PDF)" title="Resume (English PDF)">
         <div class="flex items-center justify-between">
-          <h3 class="font-medium">{s.label}</h3>
-          <span aria-hidden class="text-blueprint">↗</span>
+          <h3 class="font-medium">Resume (EN)</h3>
+          <span aria-hidden class="text-blueprint">↓</span>
         </div>
-        {s.handle && <p class="mt-1 text-sm font-mono opacity-75">{s.handle}</p>}
+        <p class="mt-1 text-sm font-mono opacity-75">PDF · English</p>
       </a>
-    ))}
-  </div>
+      <a href="/resume-fr.pdf" target="_blank" rel="noopener noreferrer"
+         class="block rounded-2xl border border-line p-4 hover:border-blueprint/40 hover:shadow-sm transition"
+         aria-label="CV (French PDF)" title="CV (French PDF)">
+        <div class="flex items-center justify-between">
+          <h3 class="font-medium">CV (FR)</h3>
+          <span aria-hidden class="text-blueprint">↓</span>
+        </div>
+        <p class="mt-1 text-sm font-mono opacity-75">PDF · Français</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- Socials -->
+  <section>
+    <h2 class="font-semibold mb-3">Connect</h2>
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {socials.map((s) => (
+        <a href={s.href} target="_blank" rel="noopener noreferrer"
+           class="block rounded-2xl border border-line p-4 hover:border-blueprint/40 hover:shadow-sm transition"
+           aria-label={s.label} title={s.label}>
+          <div class="flex items-center justify-between">
+            <h3 class="font-medium">{s.label}</h3>
+            <span aria-hidden class="text-blueprint">↗</span>
+          </div>
+          {s.handle && <p class="mt-1 text-sm font-mono opacity-75">{s.handle}</p>}
+        </a>
+      ))}
+    </div>
+  </section>
 
   <!-- Structured data for better SERP profile links -->
   <script type="application/ld+json" is:inline>{JSON.stringify(jsonLd)}</script>

@@ -60,6 +60,22 @@ const featured = (await getCollection("projects"))
 
     <!-- Quick highlights -->
     <div class="space-y-4">
+      <!-- Resume -->
+      <div class="border border-line rounded-2xl p-5 space-y-3">
+        <h3 class="text-sm font-semibold text-ink">Resume</h3>
+        <p class="text-sm opacity-85">Available as a two-page PDF, in English or French.</p>
+        <div class="flex gap-3">
+          <a href="/resume-en.pdf" target="_blank" rel="noopener noreferrer"
+             class="flex-1 text-center px-4 py-2 rounded-lg bg-blueprint text-paper font-mono text-sm hover:opacity-90 transition">
+            Resume (EN) ↓
+          </a>
+          <a href="/resume-fr.pdf" target="_blank" rel="noopener noreferrer"
+             class="flex-1 text-center px-4 py-2 rounded-lg border border-line font-mono text-sm hover:border-blueprint hover:text-blueprint transition">
+            CV (FR) ↓
+          </a>
+        </div>
+      </div>
+
       <div class="border border-line rounded-2xl p-5 space-y-4">
         <div>
           <div class="text-sm font-semibold">Agentic Systems</div>
