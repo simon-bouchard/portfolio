@@ -15,6 +15,7 @@ const projects = (await getCollection("projects"))
   .slice()
   .sort((a, b) =>
     (Number(b.data.featured) - Number(a.data.featured)) || // featured first
+    (a.slug === "book-recsys" ? -1 : b.slug === "book-recsys" ? 1 : 0) || // flagship project leads
     (toTime(b.data.date) - toTime(a.data.date)) ||         // newest -> oldest
     a.slug.localeCompare(b.slug)
   );

@@ -7,7 +7,12 @@ import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   site: 'https://simonbouchard.space',
-  integrations: [mdx(), sitemap()],
+  integrations: [
+    mdx(),
+    sitemap({
+      filter: (page) => !page.includes('/experience/'),
+    }),
+  ],
   vite: { plugins: [tailwindcss()] },
 });
 

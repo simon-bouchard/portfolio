@@ -2,7 +2,7 @@
 title: "CV Inference Serving with Triton"
 description: "Deploying computer vision models with NVIDIA Triton Inference Server on a home GPU rig, following a deliberate experimental arc — each experiment finds a bottleneck, fixes it, and reveals the next one — backed by real benchmark numbers."
 stack: ["PyTorch", "ONNX", "TensorRT", "Triton Inference Server", "C++", "Python", "Docker"]
-featured: false
+featured: true
 date: "2026-05"
 repo: "https://github.com/simon-bouchard/cv-inference-triton"
 cover: "/projects/cv-inference-triton/cover.jpg"

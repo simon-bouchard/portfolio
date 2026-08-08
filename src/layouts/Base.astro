@@ -2,8 +2,8 @@
 // src/layouts/Base.astro
 import "../styles/tailwind.css";
 
-type Props = { title?: string; description?: string };
-const { title: pTitle, description: pDesc } = (Astro.props as Props) ?? {};
+type Props = { title?: string; description?: string; noindex?: boolean };
+const { title: pTitle, description: pDesc, noindex } = (Astro.props as Props) ?? {};
 const TITLE = pTitle ?? "Simon Bouchard — ML Developer";
 const DESC  = pDesc  ?? "Recommender systems, FastAPI, PyTorch.";
 const OG_IMAGE = new URL("/og-image.png", Astro.site).toString();
@@ -29,6 +29,7 @@ const links = [
     <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{TITLE}</title><meta name="description" content={DESC} />
     <link rel="canonical" href={CANONICAL_URL} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />

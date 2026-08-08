@@ -4,9 +4,10 @@ import { getCollection } from "astro:content";
 import ProjectLinks from "../components/ProjectLinks.astro";
 import { certifications } from "../data/certifications";
 
-// Featured projects for the homepage grid
+// Featured projects for the homepage grid; book-recsys leads as the flagship project
 const featured = (await getCollection("projects"))
   .filter((p) => p.data.featured)
+  .sort((a, b) => (a.slug === "book-recsys" ? -1 : b.slug === "book-recsys" ? 1 : 0))
   .slice(0, 4);
 ---
 
@@ -37,8 +38,8 @@ const featured = (await getCollection("projects"))
       <ul class="mt-5 flex flex-wrap gap-2">
         {[
           "Python","FastAPI","LLM Agents","RAG","Vector Search",
-          "PyTorch","LightGBM","SQL","Linux/Nginx","Docker","AWS","Git",
-          "Scikit", "Langraph", "Spark"
+          "PyTorch","SQL","Linux/Nginx","Docker",
+          "Scikit","LangGraph","C++","Observability"
         ].map((s) => (
           <li class="text-xs px-2 py-1 rounded-full border border-line font-mono opacity-90">{s}</li>
         ))}
@@ -141,7 +142,7 @@ const featured = (await getCollection("projects"))
             <a href={`/projects/${p.slug}/`} class="block">
               <div class="flex items-center justify-between">
                 <h3 class="text-lg font-semibold flex items-center gap-2">
-                  <img src={`/projects/${p.slug}/icon.png`} alt="" class="size-5 rounded" />
+                  <img src={p.data.icon ?? `/projects/${p.slug}/icon.png`} alt="" class="size-5 rounded" />
                   {p.data.title}
                 </h3>
                 <span class="text-xs opacity-70">{p.data.date ?? ""}</span>
