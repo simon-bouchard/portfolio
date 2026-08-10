@@ -1,7 +1,7 @@
 ---
 title: "AI Framework Tracker"
 description: "An agentic pipeline that continuously scrapes emerging AI agent frameworks and compiles them into a queryable, interlinked knowledge base — built so coding agents past their training cutoff can stay aware of what exists."
-stack: ["Claude Agent SDK", "Python", "Airflow", "GitHub API", "Claude Code plugin"]
+stack: ["Claude Agent SDK", "Python", "Airflow", "Hermes", "llm-wiki-compiler"]
 featured: false
 date: "2026-06"
 repo: "https://github.com/simon-bouchard/ai-researcher"
