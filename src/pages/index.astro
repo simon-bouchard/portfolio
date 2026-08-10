@@ -138,8 +138,8 @@ const featured = (await getCollection("projects"))
       <h2 class="text-xl font-semibold mb-4">Featured</h2>
       <div class="grid gap-6 md:grid-cols-2">
         {featured.map((p) => (
-          <article class="border border-line rounded-2xl p-5 hover:border-blueprint/40 hover:shadow-sm transition">
-            <a href={`/projects/${p.slug}/`} class="block">
+          <article class="relative border border-line rounded-2xl p-5 hover:border-blueprint/40 hover:shadow-sm transition">
+            <a href={`/projects/${p.slug}/`} class="block after:absolute after:inset-0 after:z-0">
               <div class="flex items-center justify-between">
                 <h3 class="text-lg font-semibold flex items-center gap-2">
                   <img src={p.data.icon ?? `/projects/${p.slug}/icon.png`} alt="" class="size-5 rounded" />
