@@ -27,7 +27,7 @@ const projects = (await getCollection("projects"))
       <article
         class={`rounded-2xl p-5 hover:shadow-sm transition ${
           p.data.featured
-            ? "border-amber-400 bg-amber-50/40 ring-1 ring-amber-300"
+            ? "border border-blueprint/40 bg-blueprint/5 ring-1 ring-blueprint/20"
             : "border border-line hover:border-blueprint/40"
         }`}
       >
@@ -40,7 +40,7 @@ const projects = (await getCollection("projects"))
             />
             {p.data.title}
             {p.data.featured && (
-              <span class="text-[10px] font-mono font-medium rounded-md px-1.5 py-0.5 bg-amber-400 text-ink shadow-sm">
+              <span class="text-[10px] font-mono font-medium rounded-md px-1.5 py-0.5 bg-blueprint text-paper shadow-sm">
                 Featured
               </span>
             )}

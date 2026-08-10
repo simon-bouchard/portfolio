@@ -11,7 +11,21 @@
   --color-blueprint: #2a4494;
 }
 
-/* Site-consistent Markdown (light mode only) */
+:root {
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-ink: #f2f1ed;
+    --color-paper: #14161b;
+    --color-line: #2a2d35;
+    --color-graphite: #9aa0ac;
+    --color-blueprint: #6d8dfb;
+  }
+}
+
+/* Site-consistent Markdown */
 .markdown { @apply text-base leading-7 text-ink; }
 
 .markdown h1 { @apply text-3xl font-bold mt-6 mb-4; }
