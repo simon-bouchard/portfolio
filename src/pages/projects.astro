@@ -32,7 +32,7 @@ const projects = (await getCollection("projects"))
         }`}
       >
         <a href={`/projects/${p.slug}/`} class="block">
-          <h2 class="text-lg font-semibold flex items-center gap-2">
+          <h2 class="text-lg font-semibold flex flex-wrap items-center gap-2">
             <img
               src={p.data.icon ?? `/projects/${p.slug}/icon.png`}
               alt=""
