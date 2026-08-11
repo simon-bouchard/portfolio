@@ -24,7 +24,8 @@ Not intended as a production logging library (see [spdlog](https://github.com/ga
 
 ## Design
 
-![Logger pipeline: Caller pushes to the buffer, the worker thread swaps and flushes it to FileSink, ConsoleSink, and NotifierSink](/projects/cpp-async-logger/pipeline.svg)
+<img src="/projects/cpp-async-logger/pipeline.svg" alt="Logger pipeline: Caller pushes to the buffer, the worker thread swaps and flushes it to FileSink, ConsoleSink, and NotifierSink" class="diagram-light" />
+<img src="/projects/cpp-async-logger/pipeline-dark.svg" alt="Logger pipeline: Caller pushes to the buffer, the worker thread swaps and flushes it to FileSink, ConsoleSink, and NotifierSink" class="diagram-dark" />
 
 A caller logs a message, which is pushed onto an in-memory buffer; once the buffer hits its batch size or a timed interval elapses, a single worker thread swaps the buffer out and flushes it to every registered sink (file, console, notifier).
 

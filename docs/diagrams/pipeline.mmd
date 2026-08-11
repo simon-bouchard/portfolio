@@ -1,0 +1,7 @@
+flowchart LR
+    Caller -->|log msg, level| Buffer[buffer\nvector&lt;LogEntry&gt;]
+    Buffer -->|batch size reached\nOR interval elapsed| Worker[worker thread]
+    Worker -->|swap + release lock| Flush[flush]
+    Flush --> S1[FileSink]
+    Flush --> S2[ConsoleSink]
+    Flush --> S3[NotifierSink]

@@ -40,7 +40,8 @@ I intentionally built on the classic **Book-Crossing** dataset, which is older a
 
 ## Recommendation Engine
 
-![System architecture](/projects/book-recsys/arch.svg)
+<img src="/projects/book-recsys/arch.svg" alt="System architecture" class="diagram-light" />
+<img src="/projects/book-recsys/arch-dark.svg" alt="System architecture" class="diagram-dark" />
 
 **Embeddings**
 
@@ -95,13 +96,15 @@ Single-index lookups use **HNSW** for fast approximate search. Hybrid similarity
 - **5 model servers:** each owns a non-overlapping set of artifacts, minimizing memory footprint and mirroring how a distributed deployment would partition work across hosts.
 - **FastAPI backend:** paginated endpoints, caching, and auth; served via **Gunicorn + Nginx**.
 
-![Training pipeline](/projects/book-recsys/training-pipeline.svg)
+<img src="/projects/book-recsys/training-pipeline.svg" alt="Training pipeline" class="diagram-light diagram-compact-sm" />
+<img src="/projects/book-recsys/training-pipeline-dark.svg" alt="Training pipeline" class="diagram-dark diagram-compact-sm" />
 
 **Inference pipeline**
 
 Both recommendation and similarity paths check the Redis cache first; on a miss the pipeline runs and the result is written back before returning. The filter (remove already-read books) and metadata enrichment steps in the recommendation path run concurrently via `asyncio.gather` since both only need the candidate ID list. This reduces the combined cost from roughly sequential to the max of the two, cutting the tail significantly.
 
-![Recommendation inference pipeline](/projects/book-recsys/inference-pipeline.svg)
+<img src="/projects/book-recsys/inference-pipeline.svg" alt="Recommendation inference pipeline" class="diagram-light diagram-compact" />
+<img src="/projects/book-recsys/inference-pipeline-dark.svg" alt="Recommendation inference pipeline" class="diagram-dark diagram-compact" />
 
 ---
 
@@ -143,7 +146,8 @@ The chatbot started as a raw LangChain chain. As it grew multi-agent, the volume
 
 Users can opt in via a UI toggle to share their profile (favorite subjects and reading history) with the agent, personalizing both candidate retrieval and the generated prose.
 
-![Chatbot agent routing](/projects/book-recsys/chatbot-agents.svg)
+<img src="/projects/book-recsys/chatbot-agents.svg" alt="Chatbot agent routing" class="diagram-light" />
+<img src="/projects/book-recsys/chatbot-agents-dark.svg" alt="Chatbot agent routing" class="diagram-dark" />
 
 ---
 
