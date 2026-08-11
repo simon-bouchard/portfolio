@@ -3,7 +3,7 @@ title: "Book Recommendation System"
 description: "Production-grade hybrid recommender with warm/cold support, real-time similarity search, and daily retraining with hot reloads."
 stack: ["FastAPI","PyTorch","FAISS","Implicit (ALS)","LangGraph","SQL (MySQL)","Redis","Nginx"]
 featured: true
-date: "2025-08"
+date: "2026-03"
 demo: "https://recsys.simonbouchard.space"
 repo: "https://github.com/simon-bouchard/book-recommendation-platform"
 cover: "/projects/book-recsys/cover.jpg"
