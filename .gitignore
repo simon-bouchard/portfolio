@@ -31,4 +31,5 @@ projects_readme
 
 # claude code tools
 .superpowers/
+docs/superpowers/*
 .playwright-mcp/
