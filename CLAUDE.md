@@ -27,7 +27,7 @@ Nav labels don't always match filenames: the "Links" nav item routes to `/contac
 
 ## Analytics
 
-GoatCounter (`simonbouchard.goatcounter.com`) is injected in `Base.astro` only when `import.meta.env.PROD` is true, so `npm run dev` won't pollute stats — this is intentional, not a bug if the script is missing locally.
+GoatCounter (`simon-bouchard.goatcounter.com`) is injected in `Base.astro` only when `import.meta.env.PROD` is true, so `npm run dev` won't pollute stats — this is intentional, not a bug if the script is missing locally.
 
 ## Deploy
 
