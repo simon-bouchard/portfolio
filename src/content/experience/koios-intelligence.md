@@ -1,0 +1,26 @@
+---
+company: "Koïos Intelligence"
+role: "Associate Business Analyst"
+start: "2026-08"
+location: "Montreal, QC"
+bullets:
+  - "Develop and maintain chatbots built on Rasa (core framework and NLU) with an integrated LLM component, acting as brokers for insurance companies — working across both frontend (TypeScript) and backend/kernel (Python); contributed to 5–10 bots across 5 insurance clients in my first few weeks."
+  - "Code reviews and QA on bot functionality; proactively file Jira tickets for bugs and UX improvements found during testing."
+  - "Wrote documentation for two broker-facing services beyond the bots themselves — a conversation lake for managing broker conversations, and an analytics service."
+  - "Bring a business-oriented lens within the technical team: gather and translate client requirements into functional specs, and communicate technical trade-offs affecting deliverables or timelines."
+skills:
+  - "Rasa"
+  - "LLM Integration"
+  - "NLU"
+  - "Python"
+  - "TypeScript"
+  - "Docker"
+  - "Bitbucket / CI-CD"
+  - "Code Review"
+  - "QA Testing"
+  - "Jira"
+  - "Business Analysis"
+  - "Technical Documentation"
+  - "Insurtech"
+link: "https://koiosintelligence.ca/"
+---
