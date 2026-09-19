@@ -4,7 +4,7 @@ description: "A very simple but technically rich multiplayer browser game: playe
 stack: ["Node.js","Express","Socket.IO","Vanilla JS","Canvas","Helmet","CORS","Nginx","Ubuntu","systemd"]
 featured: false
 date: "2025-02"
-demo: "https://game.simonbouchard.space"
+demo: "https://game.simon-bouchard.com"
 repo: "https://github.com/simon-bouchard/freecodecamp-project-secure-real-time-multiplayer-game"
 cover: "/projects/coin-race/cover.jpg"
 highlights:

@@ -1,8 +1,8 @@
-# simonbouchard.space
+# simon-bouchard.com
 
 Source for my personal portfolio site, built with [Astro](https://astro.build) and [Tailwind CSS](https://tailwindcss.com).
 
-Live at **[simonbouchard.space](https://simonbouchard.space)**.
+Live at **[simon-bouchard.com](https://simon-bouchard.com)**.
 
 ## Structure
 

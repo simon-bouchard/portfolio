@@ -4,7 +4,7 @@ description: "Production-grade hybrid recommender with warm/cold support, real-t
 stack: ["FastAPI","PyTorch","FAISS","Implicit (ALS)","LangGraph","SQL (MySQL)","Redis","Nginx"]
 featured: true
 date: "2026-03"
-demo: "https://recsys.simonbouchard.space"
+demo: "https://recsys.simon-bouchard.com"
 repo: "https://github.com/simon-bouchard/book-recommendation-platform"
 cover: "/projects/book-recsys/cover.jpg"
 highlights:
