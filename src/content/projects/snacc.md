@@ -3,7 +3,7 @@ title: "snacc — Rust CLI for Kaggle/LLM Workflows"
 description: "A cross-platform command-line tool that automates my Kaggle + LLM workflow, with project-tree exports, notebook copying, and installer builds."
 stack: ["Rust","Cargo workspace","GitHub Actions","Cross-platform packaging"]
 date: "2025-07"
-repo: "https://github.com/simonbouchard/snacc" 
+repo: "https://github.com/simon-bouchard/snacc"
 cover: "/projects/snacc/cover.jpg"
 highlights:
   - "Automates Kaggle workflow: watches downloads folder, copies notebook code cells for LLM input"
